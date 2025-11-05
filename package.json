@@ -24,7 +24,6 @@
   "dependencies": {
     "@payloadcms/admin-bar": "3.61.1",
     "@payloadcms/db-postgres": "^3.62.1",
-    "@payloadcms/db-sqlite": "3.61.1",
     "@payloadcms/live-preview-react": "3.61.1",
     "@payloadcms/next": "3.61.1",
     "@payloadcms/payload-cloud": "3.61.1",
