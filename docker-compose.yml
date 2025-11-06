@@ -9,23 +9,23 @@ services:
       - .:/home/node/app
       - node_modules:/home/node/app/node_modules
     working_dir: /home/node/app/
-    command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
+    command: sh -c "yarn install && yarn dev"
     depends_on:
-      #- mongo
-      - postgres
+      - mongo
     env_file:
       - .env
 
-  #Uncomment the following to use postgres
-  postgres:
-    restart: always
-    image: postgres:latest
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+  mongo:
+    image: mongo:latest
     ports:
-      - "5432:5432"
+      - '27017:27017'
+    command:
+      - --storageEngine=wiredTiger
+    volumes:
+      - data:/data/db
+    logging:
+      driver: none
 
 volumes:
   data:
-  pgdata:
   node_modules:

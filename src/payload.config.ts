@@ -36,7 +36,6 @@ export default buildConfig({
     },
     user: Users.slug,
     livePreview: {
-      url: "https://fsi.ur.de/advent",
       breakpoints: [
         {
           label: 'Mobile',
