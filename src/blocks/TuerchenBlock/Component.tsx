@@ -51,7 +51,7 @@ export const TuerchenBlock: React.FC<Props> = ({ className }) => {
         return (
           <a
             key={day}
-            href={`/${pad2(day)}`}
+            href={`/advent/${pad2(day)}`}
             className={[styles.door, styles[size], open ? styles.open : styles.closed].join(' ')}
             role="gridcell"
             aria-label={`Türchen ${day}`}
