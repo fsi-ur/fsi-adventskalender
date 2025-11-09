@@ -65,24 +65,8 @@ export const TuerchenBlock = ({ className }: Props) => {
             Advent of <span className={styles.titleAccent}>FS[i]</span>
           </h1>
           <p className={styles.lead}>
-            Jeden Tag eine kleine, feine Überraschung aus unserer Fachschaft – modern, minimalistisch und festlich.
+            Jeden Tag eine kleine, feine Überraschung aus unserer Fachschaft oder von Lehrstühlen.
           </p>
-          <div className={styles.ctaRow}>
-            {ctaHref ? (
-              <a className={styles.ctaLink} href={ctaHref}>
-                {ctaLabel}
-              </a>
-            ) : (
-              <span className={styles.ctaLinkDisabled} aria-disabled="true">
-                {ctaLabel}
-              </span>
-            )}
-            <span className={styles.ctaMeta}>
-              {nextUnlockDate
-                ? `Nächstes Türchen ab ${dayFormatter.format(nextUnlockDate)}`
-                : 'Alle 24 Türchen sind geöffnet'}
-            </span>
-          </div>
         </div>
 
         <div className={styles.gridWrap}>
