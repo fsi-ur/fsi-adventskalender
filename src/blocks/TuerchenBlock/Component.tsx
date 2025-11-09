@@ -35,6 +35,13 @@ function pad2(n: number) {
 }
 
 const dayFormatter = new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: 'long' })
+const DOOR_PALETTES = [
+  styles.paletteEvergreen,
+  styles.paletteCranberry,
+  styles.paletteFrost,
+  styles.paletteGolden,
+  styles.paletteBerry,
+] as const
 
 export const TuerchenBlock = ({ className }: Props) => {
   const now = new Date()
@@ -51,7 +58,10 @@ export const TuerchenBlock = ({ className }: Props) => {
 
   const openDoors = new Set<number>(ORDER.filter((day) => day <= unlockedThreshold))
   const ctaHref = latestOpenDoor ? `/advent/${pad2(latestOpenDoor)}` : undefined
-  const ctaLabel = latestOpenDoor ? `Türchen ${pad2(latestOpenDoor)} öffnen` : 'Bleib gespannt'
+  const ctaLabel = latestOpenDoor ? 'Aktuelles Türchen öffnen' : 'Noch geschlossen'
+  const statusLabel = nextUnlockDate
+    ? `Nächstes Türchen: ${dayFormatter.format(nextUnlockDate)}`
+    : 'Alle 24 Türchen sind geöffnet'
 
   return (
     <section
@@ -74,19 +84,21 @@ export const TuerchenBlock = ({ className }: Props) => {
             {ORDER.map((day) => {
               const size = getSizeForDay(day)
               const open = openDoors.has(day)
+              const paletteClass = DOOR_PALETTES[day % DOOR_PALETTES.length]
 
               return (
                 <a
                   key={day}
                   href={`/advent/${pad2(day)}`}
-                  className={[styles.door, styles[size], open ? styles.open : styles.closed].join(' ')}
+                  className={
+                    [styles.door, paletteClass, styles[size], open ? styles.open : styles.closed]
+                      .filter(Boolean)
+                      .join(' ')
+                  }
                   role="gridcell"
                   aria-label={`Türchen ${pad2(day)} ${open ? 'geöffnet' : 'geschlossen'}`}
                 >
                   <span className={styles.number}>{pad2(day)}</span>
-                  {!open && nextUnlockDay === day ? (
-                    <span className={styles.comingSoon}>bald</span>
-                  ) : null}
                 </a>
               )
             })}
