@@ -40,7 +40,7 @@
   font-size: clamp(2.4rem, 5vw, 3.6rem);
   font-weight: 700;
   line-height: 1.05;
-  color: hsl(var(--primary));
+  color: color-mix(in srgb, hsl(var(--primary)) 80%, white 20%);
 }
 
 .titleAccent {
@@ -50,7 +50,7 @@
 .lead {
   font-size: clamp(1.05rem, 2.6vw, 1.3rem);
   line-height: 1.55;
-  color: rgba(43, 68, 59, 0.8);
+  color: rgba(137, 170, 158, 0.8);
   color: color-mix(in srgb, hsl(var(--foreground)) 80%, white 20%);
 }
 
