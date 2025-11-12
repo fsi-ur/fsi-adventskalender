@@ -29,7 +29,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [headerTheme])
 
-  const [imageExists, setImageExists] = useState<boolean | null>(false)
+  const [imageExists, setImageExists] = useState<boolean>(false)
   const logoUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/media/Logo%20Font.svg`
 
   useEffect(() => {
