@@ -13,11 +13,13 @@ export async function Footer() {
 
   const navItems = footerData?.navItems || []
 
+  const logoUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/media/Logo%20Font.svg`
+  
   return (
     <footer className="mt-auto border-t border-border bg-black dark:bg-card text-white">
       <div className="container py-8 gap-8 flex flex-col md:flex-row md:justify-between">
         <Link className="flex items-center" href="/">
-          <Logo />
+          <Logo loading="eager" priority="high" className="invert dark:invert-0" logoUrl={logoUrl} useLogoImage={true} />
         </Link>
 
         <div className="flex flex-col-reverse items-start md:flex-row gap-4 md:items-center">

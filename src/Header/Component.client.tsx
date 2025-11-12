@@ -29,11 +29,26 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [headerTheme])
 
+  const [imageExists, setImageExists] = useState<boolean | null>(false)
+  const logoUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/media/Logo%20Font.svg`
+
+  useEffect(() => {
+    const checkImage = async () => {
+      try {
+        const res = await fetch(logoUrl, { method: 'GET' })
+        if(res.ok) setImageExists(true)
+      } catch {
+        setImageExists(false)
+      }
+    }
+    checkImage()
+  })
+
   return (
     <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
       <div className="py-8 flex justify-between">
         <Link href="/">
-          <Logo loading="eager" priority="high" className="invert dark:invert-0" />
+          <Logo loading="eager" priority="high" className="invert dark:invert-0" logoUrl={logoUrl} useLogoImage={imageExists} />
         </Link>
         <HeaderNav data={data} />
       </div>
