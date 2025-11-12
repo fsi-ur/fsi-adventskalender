@@ -13,7 +13,7 @@ export async function Footer() {
 
   const navItems = footerData?.navItems || []
 
-  const logoUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/media/Logo%20Font.svg`
+  const logoUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/media/file/Logo%20Font.svg`
   
   return (
     <footer className="mt-auto border-t border-border bg-black dark:bg-card text-white">
