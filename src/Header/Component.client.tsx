@@ -30,7 +30,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [headerTheme])
 
   const [imageExists, setImageExists] = useState<boolean>(false)
-  const logoUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/advent/api/media/file/Logo%20Font.svg`
+  const logoUrl = `https://fsi.ur.de/advent/api/media/file/Logo%20Font.svg`
 
   useEffect(() => {
     const checkImage = async () => {
@@ -47,7 +47,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   return (
     <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
       <div className="py-8 flex justify-between">
-        <Link href={process.env.NEXT_PUBLIC_SERVER_URL}>
+        <Link href="https://fsi.ur.de/advent">
           <Logo loading="eager" priority="high" className="invert dark:invert-0" logoUrl={logoUrl} useLogoImage={imageExists} />
         </Link>
       </div>
