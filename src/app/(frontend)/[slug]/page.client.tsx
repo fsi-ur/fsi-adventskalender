@@ -8,11 +8,11 @@ interface PageClientProps {
 }
 
 const PageClient: React.FC<PageClientProps> = ({ slug }) => {
-  /* Force the header to be dark mode while we have an image behind it */
+  /* Force the header to be dark mode */
   const { setHeaderTheme } = useHeaderTheme()
 
   useEffect(() => {
-    setHeaderTheme('light')
+    setHeaderTheme('dark')
   }, [setHeaderTheme])
 
   return (

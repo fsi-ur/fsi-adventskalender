@@ -23,7 +23,7 @@ export const InitTheme: React.FC = () => {
     }
 
     function themeIsValid(theme) {
-      return theme === 'light' || theme === 'dark'
+      return theme === 'dark'
     }
 
     var themeToSet = '${defaultTheme}'
