@@ -30,7 +30,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [headerTheme])
 
   const [imageExists, setImageExists] = useState<boolean>(false)
-  const logoUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/media/file/Logo%20Font.svg`
+  const logoUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/advent/api/media/file/Logo%20Font.svg`
 
   useEffect(() => {
     const checkImage = async () => {
