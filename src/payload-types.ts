@@ -76,6 +76,7 @@ export interface Config {
     forms: Form;
     'form-submissions': FormSubmission;
     search: Search;
+    'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
     'payload-folders': FolderInterface;
     'payload-locked-documents': PayloadLockedDocument;
@@ -97,6 +98,7 @@ export interface Config {
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
+    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -197,7 +199,15 @@ export interface Page {
       | null;
     media?: (number | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock | TuerchenBlock)[];
+  layout: (
+    | CallToActionBlock
+    | ContentBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+    | TuerchenBlock
+    | TuerchenContentBlock
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -787,6 +797,100 @@ export interface TuerchenBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenContentBlock".
+ */
+export interface TuerchenContentBlock {
+  /**
+   * The main heading for this content section
+   */
+  heading: string;
+  /**
+   * A brief description or lead paragraph
+   */
+  description?: string | null;
+  /**
+   * Author or contributor name (optional)
+   */
+  author?: string | null;
+  /**
+   * Display date for the content
+   */
+  publishDate?: string | null;
+  /**
+   * Add text, images, or custom interactive content
+   */
+  contentBlocks: (TuerchenTextBlock | TuerchenImageBlock | TuerchenCustomBlock)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'tuerchenContent';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenTextBlock".
+ */
+export interface TuerchenTextBlock {
+  richText: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'tuerchenText';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenImageBlock".
+ */
+export interface TuerchenImageBlock {
+  media: number | Media;
+  /**
+   * Optional caption for the image
+   */
+  caption?: string | null;
+  size?: ('small' | 'default' | 'wide' | 'full') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'tuerchenImage';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenCustomBlock".
+ */
+export interface TuerchenCustomBlock {
+  type: 'sudoku' | 'quiz' | 'puzzle' | 'other';
+  /**
+   * Optional title for the custom content
+   */
+  title?: string | null;
+  /**
+   * Custom JSON data for the interactive element
+   */
+  data?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'tuerchenCustom';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -858,6 +962,23 @@ export interface Search {
     | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-kv".
+ */
+export interface PayloadKv {
+  id: number;
+  key: string;
+  data:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -995,10 +1116,6 @@ export interface PayloadLockedDocument {
         value: number | Search;
       } | null)
     | ({
-        relationTo: 'payload-jobs';
-        value: number | PayloadJob;
-      } | null)
-    | ({
         relationTo: 'payload-folders';
         value: number | FolderInterface;
       } | null);
@@ -1081,6 +1198,7 @@ export interface PagesSelect<T extends boolean = true> {
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
         tuerchenBlock?: T | TuerchenBlockSelect<T>;
+        tuerchenContent?: T | TuerchenContentBlockSelect<T>;
       };
   meta?:
     | T
@@ -1185,6 +1303,56 @@ export interface FormBlockSelect<T extends boolean = true> {
  * via the `definition` "TuerchenBlock_select".
  */
 export interface TuerchenBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenContentBlock_select".
+ */
+export interface TuerchenContentBlockSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  author?: T;
+  publishDate?: T;
+  contentBlocks?:
+    | T
+    | {
+        tuerchenText?: T | TuerchenTextBlockSelect<T>;
+        tuerchenImage?: T | TuerchenImageBlockSelect<T>;
+        tuerchenCustom?: T | TuerchenCustomBlockSelect<T>;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenTextBlock_select".
+ */
+export interface TuerchenTextBlockSelect<T extends boolean = true> {
+  richText?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenImageBlock_select".
+ */
+export interface TuerchenImageBlockSelect<T extends boolean = true> {
+  media?: T;
+  caption?: T;
+  size?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenCustomBlock_select".
+ */
+export interface TuerchenCustomBlockSelect<T extends boolean = true> {
+  type?: T;
+  title?: T;
+  data?: T;
   id?: T;
   blockName?: T;
 }
@@ -1547,6 +1715,14 @@ export interface SearchSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-kv_select".
+ */
+export interface PayloadKvSelect<T extends boolean = true> {
+  key?: T;
+  data?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
