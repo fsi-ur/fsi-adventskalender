@@ -1,6 +1,5 @@
 // storage-adapter-import-placeholder
-import { postgresAdapter } from '@payloadcms/db-postgres'
-import { s3Storage } from '@payloadcms/storage-s3'
+import { sqliteAdapter } from '@payloadcms/db-sqlite'
 
 import sharp from 'sharp' // sharp-import
 import path from 'path'
@@ -54,9 +53,9 @@ export default buildConfig({
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
-  db: postgresAdapter({
-    pool: {
-      connectionString: process.env.DATABASE_URI || '',
+  db: sqliteAdapter({
+    client: {
+      url: process.env.DATABASE_URI || '',
     },
   }),
   collections: [Pages, Posts, Media, Categories, Users],
@@ -64,23 +63,6 @@ export default buildConfig({
   globals: [Header, Footer],
   plugins: [
     ...plugins,
-    // storage-adapter-placeholder
-    s3Storage({
-      collections: {
-        media: true,
-      },
-      bucket: process.env.S3_BUCKET || '',
-      config: {
-        forcePathStyle: true, // Important for using Supabase
-        credentials: {
-          accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
-          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '',
-        },
-        region: process.env.S3_REGION || '',
-        endpoint: process.env.S3_ENDPOINT || '',
-        // ... Other S3 configuration
-      },
-    }),
   ],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
