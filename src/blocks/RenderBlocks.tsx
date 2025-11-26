@@ -8,6 +8,7 @@ import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { TuerchenBlock } from './TuerchenBlock/Component'
+import { TuerchenContentBlock } from './TuerchenContent/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -15,7 +16,8 @@ const blockComponents = {
   cta: CallToActionBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
-  tuerchenBlock: TuerchenBlock
+  tuerchenBlock: TuerchenBlock,
+  tuerchenContent: TuerchenContentBlock,
 }
 
 export const RenderBlocks: React.FC<{
