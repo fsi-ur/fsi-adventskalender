@@ -10,10 +10,12 @@ pnpm-lock.yaml
 
 # Payload default media upload directory
 public/media/
-
 public/robots.txt
 public/sitemap*.xml
 
+# Local SQLite database file
+adventskalender-fsi.db
+*.db
 
 # Playwright
 node_modules/
