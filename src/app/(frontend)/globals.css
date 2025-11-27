@@ -14,39 +14,37 @@
   }
 
   :root {
-    --background: 35 56% 97%;
-  --foreground: 160 16% 22%;
+    --background: 160 24% 8%;
+    --foreground: 33 62% 94%;
 
-  --card: 30 28% 99%;
-  --card-foreground: 160 16% 24%;
+    --card: 160 18% 11%;
+    --card-foreground: 33 62% 94%;
 
-    --popover: 35 56% 97%;
-    --popover-foreground: 161 18% 22%;
+    --popover: 160 24% 8%;
+    --popover-foreground: 33 62% 94%;
 
-  --primary: 160 26% 28%;
-  --primary-foreground: 24 58% 96%;
+    --primary: 158 38% 68%;
+    --primary-foreground: 161 26% 12%;
 
-  --secondary: 148 26% 92%;
-  --secondary-foreground: 160 20% 24%;
+    --secondary: 156 28% 18%;
+    --secondary-foreground: 148 52% 88%;
 
-  --muted: 26 24% 93%;
-  --muted-foreground: 24 20% 46%;
+    --muted: 156 28% 18%;
+    --muted-foreground: 157 18% 66%;
 
-  --accent: 6 52% 56%;
-  --accent-foreground: 26 62% 96%;
+    --accent: 356 68% 62%;
+    --accent-foreground: 27 78% 96%;
 
-  --destructive: 2 62% 46%;
-  --destructive-foreground: 28 72% 96%;
+    --destructive: 357 62% 40%;
+    --destructive-foreground: 27 78% 96%;
 
-  --border: 30 18% 84%;
-  --input: 149 20% 87%;
-  --ring: 160 26% 28%;
+    --border: 160 18% 24%;
+    --input: 160 20% 20%;
+    --ring: 158 38% 68%;
 
-    --radius: 0.45rem;
-
-    --success: 157 34% 42%;
-    --warning: 34 82% 72%;
-    --error: 2 70% 52%;
+    --success: 152 46% 46%;
+    --warning: 32 74% 64%;
+    --error: 357 68% 54%;
   }
 
   [data-theme='dark'] {
