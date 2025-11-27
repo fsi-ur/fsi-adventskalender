@@ -63,7 +63,7 @@ export const FormBlock: React.FC<
         }, 1000)
 
         try {
-          const req = await fetch(`${getClientSideURL()}/api/form-submissions`, {
+          const req = await fetch(`${getClientSideURL()}/advent/api/form-submissions`, {
             body: JSON.stringify({
               form: formID,
               submissionData: dataToSend,
