@@ -22,12 +22,6 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  routes: {
-    api: '/advent/api',
-    admin: '/advent/admin',
-    graphQL: '/advent/graphql',
-    graphQLPlayground: '/advent/graphql-playground',
-  },
   admin: {
     components: {
     },
