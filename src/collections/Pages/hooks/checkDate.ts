@@ -10,6 +10,9 @@ export const checkDate: CollectionBeforeReadHook = async ({ doc, req }) => {
   if (doc.slug !== 'unopeneddoor') {
     const now = new Date();
     const publishDate = new Date(doc.publishedAt);
+    
+    publishDate.setHours(0)
+    publishDate.setMinutes(0)
 
     if (now < publishDate) {
       const redirect = await req.payload.find({
