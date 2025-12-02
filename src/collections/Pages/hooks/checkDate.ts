@@ -14,6 +14,8 @@ export const checkDate: CollectionBeforeReadHook = async ({ doc, req }) => {
     publishDate.setHours(0)
     publishDate.setMinutes(0)
 
+    now.setHours(now.getHours()+1)
+
     if (now < publishDate) {
       const redirect = await req.payload.find({
         collection: 'pages',
