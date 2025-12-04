@@ -1,6 +1,6 @@
-import type { CollectionBeforeReadHook } from 'payload';
+import type { CollectionAfterReadHook } from 'payload';
 
-export const checkDate: CollectionBeforeReadHook = async ({ doc, req }) => {
+export const checkDate: CollectionAfterReadHook = async ({ doc, req }) => {
   if (req.user) return doc;
 
   // Prevent recursion
