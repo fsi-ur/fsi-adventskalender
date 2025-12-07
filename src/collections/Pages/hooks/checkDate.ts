@@ -1,14 +1,17 @@
 import type { CollectionAfterReadHook } from 'payload';
 
 export const checkDate: CollectionAfterReadHook = async ({ doc, req }) => {
-  if (req.user) return doc;
+  console.log(req.user?.collection)
+  if (req.user && req.user.collection === 'users') {
+    return doc;
+  }
 
   // Prevent recursion
   if ((req as any)._inCheckDateHook) return doc;
   (req as any)._inCheckDateHook = true;
 
   if (doc.slug !== 'unopeneddoor') {
-    const now = new Date();
+    const now = new Date(Date.now());
     const publishDate = new Date(doc.publishedAt);
     
     publishDate.setHours(0)
