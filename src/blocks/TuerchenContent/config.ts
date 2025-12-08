@@ -76,7 +76,67 @@ const ImageBlock: Block = {
 }
 
 /**
- * Placeholder block for custom interactive content (sudoku, puzzles, etc.)
+ * Sudoku block for interactive Christmas-themed Sudoku puzzles
+ */
+const SudokuBlock: Block = {
+  slug: 'tuerchenSudoku',
+  interfaceName: 'TuerchenSudokuBlock',
+  labels: {
+    singular: 'Sudoku',
+    plural: 'Sudokus',
+  },
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      defaultValue: 'Weihnachts-Sudoku',
+      admin: {
+        description: 'Title displayed above the Sudoku',
+      },
+    },
+    {
+      name: 'puzzleIndex',
+      type: 'select',
+      defaultValue: '0',
+      options: [
+        { label: 'Puzzle 1 (Easy)', value: '0' },
+        { label: 'Puzzle 2 (Easy)', value: '1' },
+        { label: 'Puzzle 3 (Medium)', value: '2' },
+      ],
+      admin: {
+        description: 'Select a pre-made puzzle or use custom',
+      },
+    },
+    {
+      name: 'useSymbols',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description: 'Start with Christmas symbols instead of numbers',
+      },
+    },
+    {
+      name: 'customPuzzle',
+      type: 'textarea',
+      admin: {
+        description:
+          'Optional: Enter a custom puzzle as a 9x9 grid. Use numbers 1-9 for filled cells and 0 for empty cells. Format: 9 rows of 9 digits separated by newlines. Example:\n530070000\n600195000\n098000060\n800060003\n400803001\n700020006\n060000280\n000419005\n000080079',
+        condition: (_, siblingData) => siblingData?.puzzleIndex === 'custom',
+      },
+    },
+    {
+      name: 'customSolution',
+      type: 'textarea',
+      admin: {
+        description: 'Optional: The solution for the custom puzzle (same format as puzzle)',
+        condition: (_, siblingData) => siblingData?.puzzleIndex === 'custom',
+      },
+    },
+  ],
+}
+
+/**
+ * Placeholder block for custom interactive content (quiz, puzzles, etc.)
  * This can be extended later with more specific fields
  */
 const CustomBlock: Block = {
@@ -92,7 +152,6 @@ const CustomBlock: Block = {
       type: 'select',
       required: true,
       options: [
-        { label: 'Sudoku', value: 'sudoku' },
         { label: 'Quiz', value: 'quiz' },
         { label: 'Puzzle', value: 'puzzle' },
         { label: 'Other', value: 'other' },
@@ -159,11 +218,11 @@ export const TuerchenContent: Block = {
     {
       name: 'contentBlocks',
       type: 'blocks',
-      blocks: [TextBlock, ImageBlock, CustomBlock],
+      blocks: [TextBlock, ImageBlock, SudokuBlock, CustomBlock],
       required: true,
       admin: {
         initCollapsed: true,
-        description: 'Add text, images, or custom interactive content',
+        description: 'Add text, images, Sudoku, or custom interactive content',
       },
     },
   ],

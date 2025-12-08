@@ -2,6 +2,7 @@ import React from 'react'
 import { cn } from '@/utilities/ui'
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
+import { Sudoku } from '@/components/Sudoku'
 
 import type { Media as MediaType } from '@/payload-types'
 import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
@@ -20,14 +21,23 @@ type TuerchenImageBlock = {
   size?: 'small' | 'default' | 'wide' | 'full' | null
 }
 
+type TuerchenSudokuBlock = {
+  blockType: 'tuerchenSudoku'
+  title?: string | null
+  puzzleIndex?: '0' | '1' | '2' | 'custom' | null
+  useSymbols?: boolean | null
+  customPuzzle?: string | null
+  customSolution?: string | null
+}
+
 type TuerchenCustomBlock = {
   blockType: 'tuerchenCustom'
-  type: 'sudoku' | 'quiz' | 'puzzle' | 'other'
+  type: 'quiz' | 'puzzle' | 'other'
   title?: string | null
   data?: Record<string, unknown> | null
 }
 
-type ContentBlock = TuerchenTextBlock | TuerchenImageBlock | TuerchenCustomBlock
+type ContentBlock = TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenCustomBlock
 
 type TuerchenContentBlockProps = {
   blockType: 'tuerchenContent'
@@ -49,6 +59,27 @@ const formatDate = (date: string) => {
     month: 'long',
     year: 'numeric',
   })
+}
+
+// Parse a custom puzzle string into a SudokuPuzzle object
+const parseSudokuPuzzle = (puzzleStr: string, solutionStr: string) => {
+  const parseGrid = (str: string): (number | null)[][] => {
+    const lines = str.trim().split('\n')
+    return lines.map((line) =>
+      line
+        .trim()
+        .split('')
+        .map((char) => {
+          const num = parseInt(char, 10)
+          return num === 0 || isNaN(num) ? null : num
+        })
+    )
+  }
+
+  return {
+    puzzle: parseGrid(puzzleStr),
+    solution: parseGrid(solutionStr),
+  }
 }
 
 export const TuerchenContentBlock: React.FC<Props> = (props) => {
@@ -145,6 +176,24 @@ export const TuerchenContentBlock: React.FC<Props> = (props) => {
                   </figure>
                 )
 
+              case 'tuerchenSudoku':
+                return (
+                  <div
+                    key={index}
+                    className="my-8 rounded-xl border border-border bg-card p-6 shadow-sm md:my-10 md:p-8"
+                  >
+                    <Sudoku
+                      puzzleIndex={parseInt(block.puzzleIndex || '0', 10)}
+                      useSymbols={block.useSymbols || false}
+                      customPuzzle={
+                        block.puzzleIndex === 'custom' && block.customPuzzle && block.customSolution
+                          ? parseSudokuPuzzle(block.customPuzzle, block.customSolution)
+                          : undefined
+                      }
+                    />
+                  </div>
+                )
+
               case 'tuerchenCustom':
                 return (
                   <div
@@ -160,7 +209,6 @@ export const TuerchenContentBlock: React.FC<Props> = (props) => {
                       {'type' in block && (
                         <div className="text-center">
                           <div className="mb-2 text-4xl">
-                            {block.type === 'sudoku' && '🔢'}
                             {block.type === 'quiz' && '❓'}
                             {block.type === 'puzzle' && '🧩'}
                             {block.type === 'other' && '✨'}

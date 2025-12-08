@@ -817,9 +817,9 @@ export interface TuerchenContentBlock {
    */
   publishDate?: string | null;
   /**
-   * Add text, images, or custom interactive content
+   * Add text, images, Sudoku, or custom interactive content
    */
-  contentBlocks: (TuerchenTextBlock | TuerchenImageBlock | TuerchenCustomBlock)[];
+  contentBlocks: (TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenCustomBlock)[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'tuerchenContent';
@@ -865,10 +865,48 @@ export interface TuerchenImageBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenSudokuBlock".
+ */
+export interface TuerchenSudokuBlock {
+  /**
+   * Title displayed above the Sudoku
+   */
+  title?: string | null;
+  /**
+   * Select a pre-made puzzle or use custom
+   */
+  puzzleIndex?: ('0' | '1' | '2') | null;
+  /**
+   * Start with Christmas symbols instead of numbers
+   */
+  useSymbols?: boolean | null;
+  /**
+   * Optional: Enter a custom puzzle as a 9x9 grid. Use numbers 1-9 for filled cells and 0 for empty cells. Format: 9 rows of 9 digits separated by newlines. Example:
+   * 530070000
+   * 600195000
+   * 098000060
+   * 800060003
+   * 400803001
+   * 700020006
+   * 060000280
+   * 000419005
+   * 000080079
+   */
+  customPuzzle?: string | null;
+  /**
+   * Optional: The solution for the custom puzzle (same format as puzzle)
+   */
+  customSolution?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'tuerchenSudoku';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TuerchenCustomBlock".
  */
 export interface TuerchenCustomBlock {
-  type: 'sudoku' | 'quiz' | 'puzzle' | 'other';
+  type: 'quiz' | 'puzzle' | 'other';
   /**
    * Optional title for the custom content
    */
@@ -1320,6 +1358,7 @@ export interface TuerchenContentBlockSelect<T extends boolean = true> {
     | {
         tuerchenText?: T | TuerchenTextBlockSelect<T>;
         tuerchenImage?: T | TuerchenImageBlockSelect<T>;
+        tuerchenSudoku?: T | TuerchenSudokuBlockSelect<T>;
         tuerchenCustom?: T | TuerchenCustomBlockSelect<T>;
       };
   id?: T;
@@ -1342,6 +1381,19 @@ export interface TuerchenImageBlockSelect<T extends boolean = true> {
   media?: T;
   caption?: T;
   size?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenSudokuBlock_select".
+ */
+export interface TuerchenSudokuBlockSelect<T extends boolean = true> {
+  title?: T;
+  puzzleIndex?: T;
+  useSymbols?: T;
+  customPuzzle?: T;
+  customSolution?: T;
   id?: T;
   blockName?: T;
 }
