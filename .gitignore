@@ -14,6 +14,8 @@ public/media/
 public/robots.txt
 public/sitemap*.xml
 
+*.db
+.env.dev
 
 # Playwright
 node_modules/
