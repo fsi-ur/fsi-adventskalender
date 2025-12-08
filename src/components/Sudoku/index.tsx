@@ -10,81 +10,79 @@ type SudokuPuzzle = {
   solution: SudokuGrid
 }
 
-// Pre-defined easy Sudoku puzzles for advent calendar
-const CHRISTMAS_PUZZLES: SudokuPuzzle[] = [
-  {
-    puzzle: [
-      [5, 3, null, null, 7, null, null, null, null],
-      [6, null, null, 1, 9, 5, null, null, null],
-      [null, 9, 8, null, null, null, null, 6, null],
-      [8, null, null, null, 6, null, null, null, 3],
-      [4, null, null, 8, null, 3, null, null, 1],
-      [7, null, null, null, 2, null, null, null, 6],
-      [null, 6, null, null, null, null, 2, 8, null],
-      [null, null, null, 4, 1, 9, null, null, 5],
-      [null, null, null, null, 8, null, null, 7, 9],
-    ],
-    solution: [
-      [5, 3, 4, 6, 7, 8, 9, 1, 2],
-      [6, 7, 2, 1, 9, 5, 3, 4, 8],
-      [1, 9, 8, 3, 4, 2, 5, 6, 7],
-      [8, 5, 9, 7, 6, 1, 4, 2, 3],
-      [4, 2, 6, 8, 5, 3, 7, 9, 1],
-      [7, 1, 3, 9, 2, 4, 8, 5, 6],
-      [9, 6, 1, 5, 3, 7, 2, 8, 4],
-      [2, 8, 7, 4, 1, 9, 6, 3, 5],
-      [3, 4, 5, 2, 8, 6, 1, 7, 9],
-    ],
-  },
-  {
-    puzzle: [
-      [null, null, null, 2, 6, null, 7, null, 1],
-      [6, 8, null, null, 7, null, null, 9, null],
-      [1, 9, null, null, null, 4, 5, null, null],
-      [8, 2, null, 1, null, null, null, 4, null],
-      [null, null, 4, 6, null, 2, 9, null, null],
-      [null, 5, null, null, null, 3, null, 2, 8],
-      [null, null, 9, 3, null, null, null, 7, 4],
-      [null, 4, null, null, 5, null, null, 3, 6],
-      [7, null, 3, null, 1, 8, null, null, null],
-    ],
-    solution: [
-      [4, 3, 5, 2, 6, 9, 7, 8, 1],
-      [6, 8, 2, 5, 7, 1, 4, 9, 3],
-      [1, 9, 7, 8, 3, 4, 5, 6, 2],
-      [8, 2, 6, 1, 9, 5, 3, 4, 7],
-      [3, 7, 4, 6, 8, 2, 9, 1, 5],
-      [9, 5, 1, 7, 4, 3, 6, 2, 8],
-      [5, 1, 9, 3, 2, 6, 8, 7, 4],
-      [2, 4, 8, 9, 5, 7, 1, 3, 6],
-      [7, 6, 3, 4, 1, 8, 2, 5, 9],
-    ],
-  },
-  {
-    puzzle: [
-      [null, 2, null, 6, null, 8, null, null, null],
-      [5, 8, null, null, null, 9, 7, null, null],
-      [null, null, null, null, 4, null, null, null, null],
-      [3, 7, null, null, null, null, 5, null, null],
-      [6, null, null, null, null, null, null, null, 4],
-      [null, null, 8, null, null, null, null, 1, 3],
-      [null, null, null, null, 2, null, null, null, null],
-      [null, null, 9, 8, null, null, null, 3, 6],
-      [null, null, null, 3, null, 6, null, 9, null],
-    ],
-    solution: [
-      [1, 2, 3, 6, 7, 8, 9, 4, 5],
-      [5, 8, 4, 2, 3, 9, 7, 6, 1],
-      [9, 6, 7, 1, 4, 5, 3, 2, 8],
-      [3, 7, 2, 4, 6, 1, 5, 8, 9],
-      [6, 9, 1, 5, 8, 3, 2, 7, 4],
-      [4, 5, 8, 7, 9, 2, 6, 1, 3],
-      [8, 3, 6, 9, 2, 4, 1, 5, 7],
-      [2, 1, 9, 8, 5, 7, 4, 3, 6],
-      [7, 4, 5, 3, 1, 6, 8, 9, 2],
-    ],
-  },
+// Pre-defined solved Sudoku grids for generating random puzzles
+const SOLVED_GRIDS: SudokuGrid[] = [
+  [
+    [5, 3, 4, 6, 7, 8, 9, 1, 2],
+    [6, 7, 2, 1, 9, 5, 3, 4, 8],
+    [1, 9, 8, 3, 4, 2, 5, 6, 7],
+    [8, 5, 9, 7, 6, 1, 4, 2, 3],
+    [4, 2, 6, 8, 5, 3, 7, 9, 1],
+    [7, 1, 3, 9, 2, 4, 8, 5, 6],
+    [9, 6, 1, 5, 3, 7, 2, 8, 4],
+    [2, 8, 7, 4, 1, 9, 6, 3, 5],
+    [3, 4, 5, 2, 8, 6, 1, 7, 9],
+  ],
+  [
+    [4, 3, 5, 2, 6, 9, 7, 8, 1],
+    [6, 8, 2, 5, 7, 1, 4, 9, 3],
+    [1, 9, 7, 8, 3, 4, 5, 6, 2],
+    [8, 2, 6, 1, 9, 5, 3, 4, 7],
+    [3, 7, 4, 6, 8, 2, 9, 1, 5],
+    [9, 5, 1, 7, 4, 3, 6, 2, 8],
+    [5, 1, 9, 3, 2, 6, 8, 7, 4],
+    [2, 4, 8, 9, 5, 7, 1, 3, 6],
+    [7, 6, 3, 4, 1, 8, 2, 5, 9],
+  ],
+  [
+    [1, 2, 3, 6, 7, 8, 9, 4, 5],
+    [5, 8, 4, 2, 3, 9, 7, 6, 1],
+    [9, 6, 7, 1, 4, 5, 3, 2, 8],
+    [3, 7, 2, 4, 6, 1, 5, 8, 9],
+    [6, 9, 1, 5, 8, 3, 2, 7, 4],
+    [4, 5, 8, 7, 9, 2, 6, 1, 3],
+    [8, 3, 6, 9, 2, 4, 1, 5, 7],
+    [2, 1, 9, 8, 5, 7, 4, 3, 6],
+    [7, 4, 5, 3, 1, 6, 8, 9, 2],
+  ],
 ]
+
+// Generate a random puzzle from a solved grid by removing cells
+const generateRandomPuzzle = (solvedGrid: SudokuGrid, cellsToRemove: number = 40): SudokuPuzzle => {
+  // Deep copy the solution
+  const solution = solvedGrid.map(row => [...row])
+  const puzzle: SudokuGrid = solvedGrid.map(row => [...row])
+
+  // Get all cell positions
+  const positions: [number, number][] = []
+  for (let r = 0; r < 9; r++) {
+    for (let c = 0; c < 9; c++) {
+      positions.push([r, c])
+    }
+  }
+
+  // Shuffle positions using Fisher-Yates
+  for (let i = positions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[positions[i], positions[j]] = [positions[j], positions[i]]
+  }
+
+  // Remove cells
+  for (let i = 0; i < cellsToRemove && i < positions.length; i++) {
+    const [r, c] = positions[i]
+    puzzle[r][c] = null
+  }
+
+  return { puzzle, solution }
+}
+
+// Generate a unique puzzle on each call
+const generateChristmasPuzzle = (): SudokuPuzzle => {
+  const gridIndex = Math.floor(Math.random() * SOLVED_GRIDS.length)
+  // Remove 35-45 cells for easy difficulty
+  const cellsToRemove = 35 + Math.floor(Math.random() * 11)
+  return generateRandomPuzzle(SOLVED_GRIDS[gridIndex], cellsToRemove)
+}
 
 // Christmas-themed number representations
 const CHRISTMAS_SYMBOLS: Record<number, string> = {
@@ -113,18 +111,20 @@ type SudokuProps = {
   className?: string
 }
 
+const MAX_HINTS = 5
+
 export const Sudoku: React.FC<SudokuProps> = ({
-  puzzleIndex = 0,
   customPuzzle,
   useSymbols = false,
   className,
 }) => {
-  const puzzle = customPuzzle || CHRISTMAS_PUZZLES[puzzleIndex % CHRISTMAS_PUZZLES.length]
+  // Generate a unique puzzle on mount (or use custom if provided)
+  const [puzzle, setPuzzle] = useState<SudokuPuzzle>(() => customPuzzle || generateChristmasPuzzle())
 
   // Initialize grid state
   const initializeGrid = useCallback((): CellState[][] => {
-    return puzzle.puzzle.map((row) =>
-      row.map((cell) => ({
+    return puzzle.puzzle.map((row: (number | null)[]) =>
+      row.map((cell: number | null) => ({
         value: cell,
         isOriginal: cell !== null,
         isError: false,
@@ -140,6 +140,7 @@ export const Sudoku: React.FC<SudokuProps> = ({
   const [isComplete, setIsComplete] = useState(false)
   const [showCelebration, setShowCelebration] = useState(false)
   const [mistakes, setMistakes] = useState(0)
+  const [hintsUsed, setHintsUsed] = useState(0)
 
   // Check if puzzle is complete
   useEffect(() => {
@@ -251,16 +252,30 @@ export const Sudoku: React.FC<SudokuProps> = ({
     })
   }, [selectedCell, grid])
 
-  // Reset puzzle
+  // Reset puzzle (generates a new random puzzle)
   const handleReset = useCallback(() => {
-    setGrid(initializeGrid())
+    const newPuzzle = customPuzzle || generateChristmasPuzzle()
+    setPuzzle(newPuzzle)
+    setGrid(
+      newPuzzle.puzzle.map((row: (number | null)[]) =>
+        row.map((cell: number | null) => ({
+          value: cell,
+          isOriginal: cell !== null,
+          isError: false,
+          notes: new Set<number>(),
+        }))
+      )
+    )
     setSelectedCell(null)
     setIsComplete(false)
     setMistakes(0)
-  }, [initializeGrid])
+    setHintsUsed(0)
+  }, [customPuzzle])
 
-  // Get hint
+  // Get hint (limited to MAX_HINTS per game)
   const handleHint = useCallback(() => {
+    if (hintsUsed >= MAX_HINTS) return
+
     // Find an empty cell and reveal its value
     for (let row = 0; row < 9; row++) {
       for (let col = 0; col < 9; col++) {
@@ -276,11 +291,12 @@ export const Sudoku: React.FC<SudokuProps> = ({
             return newGrid
           })
           setSelectedCell({ row, col })
+          setHintsUsed((h) => h + 1)
           return
         }
       }
     }
-  }, [grid, puzzle.solution])
+  }, [grid, puzzle.solution, hintsUsed])
 
   // Keyboard handling
   useEffect(() => {
@@ -484,9 +500,9 @@ export const Sudoku: React.FC<SudokuProps> = ({
             onClick={handleHint}
             variant="outline"
             size="sm"
-            disabled={isComplete}
+            disabled={isComplete || hintsUsed >= MAX_HINTS}
           >
-            💡 Hinweis
+            💡 Hinweis ({MAX_HINTS - hintsUsed})
           </Button>
 
           <Button
@@ -522,17 +538,6 @@ export const Sudoku: React.FC<SudokuProps> = ({
           </div>
         </div>
       )}
-
-      {/* Instructions */}
-      <div className="text-xs text-muted-foreground text-center max-w-md">
-        <p className="mb-1">
-          <strong>Steuerung:</strong> Klicke auf ein Feld und wähle eine Zahl.
-          Nutze die Pfeiltasten zur Navigation.
-        </p>
-        <p>
-          <strong>Tipp:</strong> Drücke <kbd className="px-1 py-0.5 bg-muted rounded text-xs">N</kbd> für Notizen-Modus.
-        </p>
-      </div>
     </div>
   )
 }
