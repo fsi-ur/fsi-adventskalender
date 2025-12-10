@@ -136,6 +136,45 @@ const SudokuBlock: Block = {
 }
 
 /**
+ * Tetris (Presents) block — Christmas-themed stacking game
+ */
+const TetrisBlock: Block = {
+  slug: 'tuerchenTetris',
+  interfaceName: 'TuerchenTetrisBlock',
+  labels: {
+    singular: 'Tetris (Presents)',
+    plural: 'Tetris (Presents)',
+  },
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      defaultValue: "Santa's Chimney",
+      admin: {
+        description: 'Title displayed above the Tetris chimney game',
+      },
+    },
+    {
+      name: 'difficulty',
+      type: 'select',
+      defaultValue: 'medium',
+      options: [
+        { label: 'Easy', value: 'easy' },
+        { label: 'Medium', value: 'medium' },
+        { label: 'Hard', value: 'hard' },
+      ],
+    },
+    {
+      name: 'seedLayout',
+      type: 'json',
+      admin: {
+        description: 'Optional initial layout as 2D array (HEIGHT x WIDTH) to pre-fill chimney. Use 0 for empty cells.',
+      },
+    },
+  ],
+}
+
+/**
  * Placeholder block for custom interactive content (quiz, puzzles, etc.)
  * This can be extended later with more specific fields
  */
@@ -218,7 +257,7 @@ export const TuerchenContent: Block = {
     {
       name: 'contentBlocks',
       type: 'blocks',
-      blocks: [TextBlock, ImageBlock, SudokuBlock, CustomBlock],
+      blocks: [TextBlock, ImageBlock, SudokuBlock, TetrisBlock, CustomBlock],
       required: true,
       admin: {
         initCollapsed: true,
