@@ -817,9 +817,15 @@ export interface TuerchenContentBlock {
    */
   publishDate?: string | null;
   /**
-   * Add text, images, Sudoku, or custom interactive content
+   * Add text, images, Sudoku, Tetris, or custom interactive content
    */
-  contentBlocks: (TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenCustomBlock)[];
+  contentBlocks: (
+    | TuerchenTextBlock
+    | TuerchenImageBlock
+    | TuerchenSudokuBlock
+    | TuerchenTetrisBlock
+    | TuerchenCustomBlock
+  )[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'tuerchenContent';
@@ -900,6 +906,23 @@ export interface TuerchenSudokuBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'tuerchenSudoku';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenTetrisBlock".
+ */
+export interface TuerchenTetrisBlock {
+  /**
+   * Title displayed above the Tetris game
+   */
+  title?: string | null;
+  /**
+   * Optional description shown below the title
+   */
+  description?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'tuerchenTetris';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1359,6 +1382,7 @@ export interface TuerchenContentBlockSelect<T extends boolean = true> {
         tuerchenText?: T | TuerchenTextBlockSelect<T>;
         tuerchenImage?: T | TuerchenImageBlockSelect<T>;
         tuerchenSudoku?: T | TuerchenSudokuBlockSelect<T>;
+        tuerchenTetris?: T | TuerchenTetrisBlockSelect<T>;
         tuerchenCustom?: T | TuerchenCustomBlockSelect<T>;
       };
   id?: T;
@@ -1394,6 +1418,16 @@ export interface TuerchenSudokuBlockSelect<T extends boolean = true> {
   useSymbols?: T;
   customPuzzle?: T;
   customSolution?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenTetrisBlock_select".
+ */
+export interface TuerchenTetrisBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
   id?: T;
   blockName?: T;
 }
