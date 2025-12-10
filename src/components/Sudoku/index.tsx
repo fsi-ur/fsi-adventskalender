@@ -272,32 +272,6 @@ export const Sudoku: React.FC<SudokuProps> = ({
     setHintsUsed(0)
   }, [customPuzzle])
 
-  // Get hint (limited to MAX_HINTS per game)
-  const handleHint = useCallback(() => {
-    if (hintsUsed >= MAX_HINTS) return
-
-    // Find an empty cell and reveal its value
-    for (let row = 0; row < 9; row++) {
-      for (let col = 0; col < 9; col++) {
-        if (grid[row][col].value === null) {
-          setGrid((prev) => {
-            const newGrid = prev.map((r) => r.map((c) => ({ ...c, notes: new Set(c.notes) })))
-            newGrid[row][col] = {
-              value: puzzle.solution[row][col],
-              isOriginal: false,
-              isError: false,
-              notes: new Set(),
-            }
-            return newGrid
-          })
-          setSelectedCell({ row, col })
-          setHintsUsed((h) => h + 1)
-          return
-        }
-      }
-    }
-  }, [grid, puzzle.solution, hintsUsed])
-
   // Keyboard handling
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -494,15 +468,6 @@ export const Sudoku: React.FC<SudokuProps> = ({
             disabled={isComplete}
           >
             🗑️ Löschen
-          </Button>
-
-          <Button
-            onClick={handleHint}
-            variant="outline"
-            size="sm"
-            disabled={isComplete || hintsUsed >= MAX_HINTS}
-          >
-            💡 Hinweis ({MAX_HINTS - hintsUsed})
           </Button>
 
           <Button
