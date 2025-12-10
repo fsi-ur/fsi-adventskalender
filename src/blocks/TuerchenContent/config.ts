@@ -136,6 +136,35 @@ const SudokuBlock: Block = {
 }
 
 /**
+ * Tetris block for interactive Christmas-themed Tetris game
+ */
+const TetrisBlock: Block = {
+  slug: 'tuerchenTetris',
+  interfaceName: 'TuerchenTetrisBlock',
+  labels: {
+    singular: 'Tetris',
+    plural: 'Tetris Games',
+  },
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      defaultValue: 'Weihnachts-Tetris',
+      admin: {
+        description: 'Title displayed above the Tetris game',
+      },
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      admin: {
+        description: 'Optional description shown below the title',
+      },
+    },
+  ],
+}
+
+/**
  * Placeholder block for custom interactive content (quiz, puzzles, etc.)
  * This can be extended later with more specific fields
  */
@@ -218,11 +247,11 @@ export const TuerchenContent: Block = {
     {
       name: 'contentBlocks',
       type: 'blocks',
-      blocks: [TextBlock, ImageBlock, SudokuBlock, CustomBlock],
+      blocks: [TextBlock, ImageBlock, SudokuBlock, TetrisBlock, CustomBlock],
       required: true,
       admin: {
         initCollapsed: true,
-        description: 'Add text, images, Sudoku, or custom interactive content',
+        description: 'Add text, images, Sudoku, Tetris, or custom interactive content',
       },
     },
   ],
