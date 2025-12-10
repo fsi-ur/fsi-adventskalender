@@ -3,6 +3,7 @@ import { cn } from '@/utilities/ui'
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 import { Sudoku } from '@/components/Sudoku'
+import { PresentTetris } from '@/components/Tetris'
 
 import type { Media as MediaType } from '@/payload-types'
 import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
@@ -30,6 +31,13 @@ type TuerchenSudokuBlock = {
   customSolution?: string | null
 }
 
+type TuerchenTetrisBlock = {
+  blockType: 'tuerchenTetris'
+  title?: string | null
+  difficulty?: 'easy' | 'medium' | 'hard' | null
+  seedLayout?: number[][] | null
+}
+
 type TuerchenCustomBlock = {
   blockType: 'tuerchenCustom'
   type: 'quiz' | 'puzzle' | 'other'
@@ -37,7 +45,7 @@ type TuerchenCustomBlock = {
   data?: Record<string, unknown> | null
 }
 
-type ContentBlock = TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenCustomBlock
+type ContentBlock = TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenTetrisBlock | TuerchenCustomBlock
 
 type TuerchenContentBlockProps = {
   blockType: 'tuerchenContent'
@@ -191,6 +199,13 @@ export const TuerchenContentBlock: React.FC<Props> = (props) => {
                           : undefined
                       }
                     />
+                  </div>
+                )
+
+              case 'tuerchenTetris':
+                return (
+                  <div key={index} className="my-8 md:my-10">
+                    <PresentTetris title={block.title || "Santa's Chimney"} />
                   </div>
                 )
 
