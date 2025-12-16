@@ -174,6 +174,42 @@ const TetrisBlock: Block = {
   ],
 }
 
+const DoodleJumpBlock: Block = {
+  slug: 'tuerchenDoodleJump',
+  interfaceName: 'TuerchenDoodleJumpBlock',
+  labels: {
+    singular: 'Doodle Jump',
+    plural: 'Doodle Jump',
+  },
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      defaultValue: 'Polar Doodle Jump',
+    },
+    {
+      name: 'difficulty',
+      type: 'select',
+      defaultValue: 'cozy',
+      options: [
+        { label: 'Gemütlich', value: 'cozy' },
+        { label: 'Winterabend', value: 'brisk' },
+        { label: 'Schneesturm', value: 'blizzard' },
+      ],
+      admin: {
+        description: 'Bestimmt Sprungkraft, Plattform-Abstände und Bewegung.',
+      },
+    },
+    {
+      name: 'note',
+      type: 'textarea',
+      admin: {
+        description: 'Optionaler Hinweis oder kleine Story für das Türchen.',
+      },
+    },
+  ],
+}
+
 /**
  * Door Puzzle block - Christmas-themed rotation puzzle
  */
@@ -279,7 +315,7 @@ export const TuerchenContent: Block = {
     {
       name: 'contentBlocks',
       type: 'blocks',
-      blocks: [TextBlock, ImageBlock, SudokuBlock, TetrisBlock, PuzzleBlock, CustomBlock],
+      blocks: [TextBlock, ImageBlock, SudokuBlock, TetrisBlock, PuzzleBlock, DoodleJumpBlock, CustomBlock],
       required: true,
       admin: {
         initCollapsed: true,

@@ -5,6 +5,7 @@ import { Media } from '@/components/Media'
 import { Sudoku } from '@/components/Sudoku'
 import { PresentTetris } from '@/components/Tetris'
 import { DoorPuzzle } from '@/components/puzzle'
+import { ChristmasDoodleJump } from '@/components/DoodleJump'
 
 import type { Media as MediaType } from '@/payload-types'
 import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
@@ -44,6 +45,13 @@ type TuerchenPuzzleBlock = {
   title?: string | null
 }
 
+type TuerchenDoodleJumpBlock = {
+  blockType: 'tuerchenDoodleJump'
+  title?: string | null
+  difficulty?: 'cozy' | 'brisk' | 'blizzard' | null
+  note?: string | null
+}
+
 type TuerchenCustomBlock = {
   blockType: 'tuerchenCustom'
   type: 'quiz' | 'puzzle' | 'other'
@@ -51,7 +59,7 @@ type TuerchenCustomBlock = {
   data?: Record<string, unknown> | null
 }
 
-type ContentBlock = TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenTetrisBlock | TuerchenPuzzleBlock | TuerchenCustomBlock
+type ContentBlock = TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenTetrisBlock | TuerchenPuzzleBlock | TuerchenDoodleJumpBlock | TuerchenCustomBlock
 
 type TuerchenContentBlockProps = {
   blockType: 'tuerchenContent'
@@ -214,7 +222,6 @@ export const TuerchenContentBlock: React.FC<Props> = (props) => {
                     <PresentTetris title={block.title || "Santa's Chimney"} />
                   </div>
                 )
-
               case 'tuerchenPuzzle':
                 return (
                   <div
@@ -222,6 +229,25 @@ export const TuerchenContentBlock: React.FC<Props> = (props) => {
                     className="my-8 rounded-xl border border-border bg-card p-6 shadow-sm md:my-10 md:p-8"
                   >
                     <DoorPuzzle />
+              case 'tuerchenDoodleJump':
+                return (
+                  <div key={index} className="my-10">
+                    <ChristmasDoodleJump
+                      title={block.title || 'Polar Doodle Jump'}
+                      difficulty={block.difficulty || 'cozy'}
+                      note={block.note || undefined}
+                    />
+                  </div>
+                )
+
+              case 'tuerchenDoodleJump':
+                return (
+                  <div key={index} className="my-10">
+                    <ChristmasDoodleJump
+                      title={block.title || 'Polar Doodle Jump'}
+                      difficulty={block.difficulty || 'cozy'}
+                      note={block.note || undefined}
+                    />
                   </div>
                 )
 

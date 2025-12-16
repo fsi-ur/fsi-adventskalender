@@ -824,7 +824,7 @@ export interface TuerchenContentBlock {
     | TuerchenImageBlock
     | TuerchenSudokuBlock
     | TuerchenTetrisBlock
-    | TuerchenPuzzleBlock
+    | TuerchenDoodleJumpBlock
     | TuerchenCustomBlock
   )[];
   id?: string | null;
@@ -936,16 +936,21 @@ export interface TuerchenTetrisBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TuerchenPuzzleBlock".
+ * via the `definition` "TuerchenDoodleJumpBlock".
  */
-export interface TuerchenPuzzleBlock {
-  /**
-   * Title displayed above the puzzle
-   */
+export interface TuerchenDoodleJumpBlock {
   title?: string | null;
+  /**
+   * Bestimmt Sprungkraft, Plattform-Abstände und Bewegung.
+   */
+  difficulty?: ('cozy' | 'brisk' | 'blizzard') | null;
+  /**
+   * Optionaler Hinweis oder kleine Story für das Türchen.
+   */
+  note?: string | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'tuerchenPuzzle';
+  blockType: 'tuerchenDoodleJump';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1406,7 +1411,7 @@ export interface TuerchenContentBlockSelect<T extends boolean = true> {
         tuerchenImage?: T | TuerchenImageBlockSelect<T>;
         tuerchenSudoku?: T | TuerchenSudokuBlockSelect<T>;
         tuerchenTetris?: T | TuerchenTetrisBlockSelect<T>;
-        tuerchenPuzzle?: T | TuerchenPuzzleBlockSelect<T>;
+        tuerchenDoodleJump?: T | TuerchenDoodleJumpBlockSelect<T>;
         tuerchenCustom?: T | TuerchenCustomBlockSelect<T>;
       };
   id?: T;
@@ -1458,10 +1463,12 @@ export interface TuerchenTetrisBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TuerchenPuzzleBlock_select".
+ * via the `definition` "TuerchenDoodleJumpBlock_select".
  */
-export interface TuerchenPuzzleBlockSelect<T extends boolean = true> {
+export interface TuerchenDoodleJumpBlockSelect<T extends boolean = true> {
   title?: T;
+  difficulty?: T;
+  note?: T;
   id?: T;
   blockName?: T;
 }
