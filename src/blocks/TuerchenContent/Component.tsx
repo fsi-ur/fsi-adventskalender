@@ -222,6 +222,7 @@ export const TuerchenContentBlock: React.FC<Props> = (props) => {
                     <PresentTetris title={block.title || "Santa's Chimney"} />
                   </div>
                 )
+
               case 'tuerchenPuzzle':
                 return (
                   <div
@@ -229,14 +230,6 @@ export const TuerchenContentBlock: React.FC<Props> = (props) => {
                     className="my-8 rounded-xl border border-border bg-card p-6 shadow-sm md:my-10 md:p-8"
                   >
                     <DoorPuzzle />
-              case 'tuerchenDoodleJump':
-                return (
-                  <div key={index} className="my-10">
-                    <ChristmasDoodleJump
-                      title={block.title || 'Polar Doodle Jump'}
-                      difficulty={block.difficulty || 'cozy'}
-                      note={block.note || undefined}
-                    />
                   </div>
                 )
 
@@ -279,8 +272,8 @@ export const TuerchenContentBlock: React.FC<Props> = (props) => {
 
               default:
                 return null
-            }
-          })}
+
+            }})}
         </div>
       </div>
     </article>
