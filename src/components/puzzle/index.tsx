@@ -1,280 +1,194 @@
 'use client'
 
-import React, { useState, useCallback, useMemo, useEffect, MouseEvent } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { cn } from '@/utilities/ui'
 import { Button } from '@/components/ui/button'
+
+// Grid configuration - 10x10 = 100 pieces
+const GRID_COLS = 10
+const GRID_ROWS = 10
+const PIECE_SIZE = 40 // Size of each piece in pixels
 
 type PuzzlePiece = {
   id: number
   row: number
   col: number
   rotation: number // 0, 90, 180, 270
-  isCorrect: boolean
 }
 
-// Door configuration - we'll use a 10x10 grid for 100 pieces
-const GRID_SIZE = 10
-
-// Generate door puzzle pieces
-const generateDoorPuzzle = (): PuzzlePiece[] => {
+// Generate puzzle with randomly rotated pieces
+const generatePuzzle = (): PuzzlePiece[] => {
   const pieces: PuzzlePiece[] = []
-  for (let i = 0; i < GRID_SIZE; i++) {
-    for (let j = 0; j < GRID_SIZE; j++) {
+  for (let row = 0; row < GRID_ROWS; row++) {
+    for (let col = 0; col < GRID_COLS; col++) {
+      // Random rotation (0, 90, 180, or 270 degrees)
+      const randomRotation = Math.floor(Math.random() * 4) * 90
       pieces.push({
-        id: i * GRID_SIZE + j,
-        row: i,
-        col: j,
-        rotation: Math.floor(Math.random() * 4) * 90,
-        isCorrect: false,
+        id: row * GRID_COLS + col,
+        row,
+        col,
+        rotation: randomRotation,
       })
     }
   }
-  // Shuffle pieces
-  return pieces.sort(() => Math.random() - 0.5)
+  return pieces
 }
 
-// Door color patterns - creates a nice old cottage door look
-const getDoorPattern = (row: number, col: number): string => {
-  const centerCol = GRID_SIZE / 2
+// Image configuration
+const PUZZLE_IMAGE = '/door-puzzle.jpg'
 
-  // Door frame (dark wood border)
-  if (row === 0 || row === GRID_SIZE - 1 || col === 0 || col === GRID_SIZE - 1) {
-    return 'from-amber-900 to-amber-950 text-amber-950'
-  }
+// Snowman reveal component
+const SnowmanReveal = () => (
+  <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-sky-200 to-sky-100 dark:from-sky-900 dark:to-sky-800 rounded-lg overflow-hidden">
+    <svg viewBox="0 0 200 200" width="200" height="200">
+      {/* Sky with stars */}
+      <rect width="200" height="200" fill="url(#skyGradient)" />
+      <defs>
+        <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#1e3a5f" />
+          <stop offset="100%" stopColor="#87CEEB" />
+        </linearGradient>
+      </defs>
+      
+      {/* Stars */}
+      <g fill="#FFD700">
+        <circle cx="30" cy="20" r="2" />
+        <circle cx="170" cy="30" r="2" />
+        <circle cx="80" cy="15" r="1.5" />
+        <circle cx="150" cy="45" r="1.5" />
+      </g>
 
-  // Door panels - create a classic 6-panel look
-  const panelRow = Math.floor((row - 1) / 3)
-  const panelCol = Math.floor((col - 1) / 3)
-
-  if (panelRow === 0 && panelCol === 1) {
-    // Upper middle panel
-    return 'from-amber-700 to-amber-800 text-amber-900'
-  } else if (panelRow === 1 && panelCol === 1) {
-    // Middle panel
-    return 'from-amber-600 to-amber-700 text-amber-800'
-  } else if (panelRow === 2 && panelCol === 1) {
-    // Lower middle panel
-    return 'from-amber-700 to-amber-800 text-amber-900'
-  } else if (col === centerCol) {
-    // Vertical divider
-    return 'from-amber-900 to-amber-950 text-amber-950'
-  }
-
-  // Panel sides with wood grain effect
-  const hasWoodGrain = (row + col) % 3 === 0
-  if (hasWoodGrain) {
-    return 'from-amber-600 to-amber-700 text-amber-800'
-  }
-
-  return 'from-amber-700 to-amber-800 text-amber-900'
-}
+      {/* Ground snow */}
+      <ellipse cx="100" cy="190" rx="100" ry="20" fill="#F0F8FF" />
+      
+      {/* Snowman body */}
+      <circle cx="100" cy="155" r="35" fill="white" stroke="#E8E8E8" strokeWidth="2" />
+      <circle cx="100" cy="100" r="28" fill="white" stroke="#E8E8E8" strokeWidth="2" />
+      <circle cx="100" cy="55" r="22" fill="white" stroke="#E8E8E8" strokeWidth="2" />
+      
+      {/* Hat */}
+      <rect x="80" y="25" width="40" height="25" fill="#2D2D2D" rx="2" />
+      <rect x="70" y="48" width="60" height="8" fill="#2D2D2D" rx="2" />
+      <rect x="85" y="30" width="30" height="5" fill="#DC143C" />
+      
+      {/* Face */}
+      <circle cx="92" cy="50" r="3" fill="#2D2D2D" />
+      <circle cx="108" cy="50" r="3" fill="#2D2D2D" />
+      <path d="M100 55 L108 62 L100 60 Z" fill="#FF6600" />
+      
+      {/* Smile */}
+      <g fill="#2D2D2D">
+        <circle cx="88" cy="68" r="1.5" />
+        <circle cx="94" cy="71" r="1.5" />
+        <circle cx="100" cy="72" r="1.5" />
+        <circle cx="106" cy="71" r="1.5" />
+        <circle cx="112" cy="68" r="1.5" />
+      </g>
+      
+      {/* Scarf */}
+      <path d="M75 78 Q100 85 125 78" stroke="#DC143C" strokeWidth="8" fill="none" />
+      <rect x="115" y="78" width="8" height="25" fill="#DC143C" rx="2" />
+      <rect x="108" y="95" width="8" height="20" fill="#DC143C" rx="2" />
+      
+      {/* Buttons */}
+      <circle cx="100" cy="100" r="4" fill="#2D2D2D" />
+      <circle cx="100" cy="120" r="4" fill="#2D2D2D" />
+      <circle cx="100" cy="140" r="4" fill="#2D2D2D" />
+      
+      {/* Arms (sticks) */}
+      <line x1="65" y1="105" x2="35" y2="85" stroke="#8B4513" strokeWidth="4" strokeLinecap="round" />
+      <line x1="35" y1="85" x2="25" y2="80" stroke="#8B4513" strokeWidth="3" strokeLinecap="round" />
+      <line x1="35" y1="85" x2="30" y2="75" stroke="#8B4513" strokeWidth="3" strokeLinecap="round" />
+      
+      <line x1="135" y1="105" x2="165" y2="85" stroke="#8B4513" strokeWidth="4" strokeLinecap="round" />
+      <line x1="165" y1="85" x2="175" y2="80" stroke="#8B4513" strokeWidth="3" strokeLinecap="round" />
+      <line x1="165" y1="85" x2="170" y2="75" stroke="#8B4513" strokeWidth="3" strokeLinecap="round" />
+    </svg>
+    <div className="mt-4 text-center">
+      <div className="text-2xl font-bold text-green-700 dark:text-green-400">
+        🎄 Frohe Weihnachten! 🎄
+      </div>
+      <div className="text-lg text-muted-foreground mt-2">
+        Die Tür ist offen!
+      </div>
+    </div>
+  </div>
+)
 
 type PuzzleProps = {
   className?: string
 }
 
 export const DoorPuzzle: React.FC<PuzzleProps> = ({ className = '' }) => {
-  const [pieces, setPieces] = useState<PuzzlePiece[]>(generateDoorPuzzle)
+  const [pieces, setPieces] = useState<PuzzlePiece[]>(() => generatePuzzle())
   const [selectedPieceId, setSelectedPieceId] = useState<number | null>(null)
   const [isComplete, setIsComplete] = useState(false)
   const [showCelebration, setShowCelebration] = useState(false)
   const [doorOpening, setDoorOpening] = useState(false)
   const [showSnowman, setShowSnowman] = useState(false)
 
-  // Piece map for quick lookup (reserved for future use)
-  useMemo(() => {
-    const map: Record<number, PuzzlePiece> = {}
-    pieces.forEach((piece: PuzzlePiece) => {
-      map[piece.id] = piece
-    })
-    return map
-  }, [pieces])
-
   // Check if puzzle is complete
   useEffect(() => {
-    if (pieces.length === 0) return
-
-    const allCorrect = pieces.every((piece: PuzzlePiece) => {
-      const correctRotation = 0
-      return piece.rotation === correctRotation
-    })
+    const allCorrect = pieces.every((piece) => piece.rotation === 0)
 
     if (allCorrect && !isComplete) {
       setIsComplete(true)
       setShowCelebration(true)
-
-      // Trigger door opening
-      setTimeout(() => {
-        setDoorOpening(true)
-      }, 800)
-
-      // Reveal snowman
-      setTimeout(() => {
-        setShowSnowman(true)
-      }, 2000)
-
+      setTimeout(() => setDoorOpening(true), 800)
+      setTimeout(() => setShowSnowman(true), 2000)
       setTimeout(() => setShowCelebration(false), 5000)
     }
   }, [pieces, isComplete])
 
-  // Rotate selected piece
-  const rotatePiece = useCallback(
-    (pieceId: number, clockwise: boolean = true) => {
-      setPieces((prev: PuzzlePiece[]) =>
-        prev.map((piece: PuzzlePiece) => {
+  // Rotate a piece by clicking on it
+  const handlePieceClick = useCallback(
+    (pieceId: number) => {
+      if (isComplete) return
+      
+      setSelectedPieceId(pieceId)
+      setPieces((prev) =>
+        prev.map((piece) => {
           if (piece.id !== pieceId) return piece
-          const newRotation = clockwise
-            ? (piece.rotation + 90) % 360
-            : (piece.rotation - 90 + 360) % 360
+          const newRotation = (piece.rotation + 90) % 360
           return { ...piece, rotation: newRotation }
         })
       )
     },
-    []
+    [isComplete]
   )
-
-  // Handle piece click
-  const handlePieceClick = useCallback(
-    (pieceId: number, event: MouseEvent<HTMLDivElement>) => {
-      setSelectedPieceId(pieceId)
-      event.stopPropagation()
-    },
-    []
-  )
-
-  // Handle keyboard rotation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (!selectedPieceId && selectedPieceId !== 0) return
-      if (isComplete) return
-
-      switch (e.key) {
-        case 'ArrowRight':
-          rotatePiece(selectedPieceId, true)
-          e.preventDefault()
-          break
-        case 'ArrowLeft':
-          rotatePiece(selectedPieceId, false)
-          e.preventDefault()
-          break
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selectedPieceId, rotatePiece, isComplete])
 
   // Reset puzzle
   const handleReset = useCallback(() => {
-    setPieces(generateDoorPuzzle())
+    setPieces(generatePuzzle())
     setSelectedPieceId(null)
     setIsComplete(false)
     setDoorOpening(false)
     setShowSnowman(false)
   }, [])
 
-  // Puzzle pieces grid view
-  const renderPuzzleGrid = () => {
-    const grid: (PuzzlePiece | null)[][] = Array(GRID_SIZE)
-      .fill(null)
-      .map(() => Array(GRID_SIZE).fill(null))
-
-    pieces.forEach((piece: PuzzlePiece) => {
-      grid[piece.row][piece.col] = piece
-    })
-
-    return (
-      <div className="grid gap-0 border-4 border-green-700 dark:border-green-500 rounded-lg overflow-hidden bg-black shadow-2xl">
-        <style>{`
-          .puzzle-grid {
-            display: grid;
-            grid-template-columns: repeat(${GRID_SIZE}, minmax(0, 1fr));
-            gap: 0;
-          }
-        `}</style>
-        <div className="puzzle-grid">
-          {grid.map((row, rowIdx) =>
-            row.map((piece, colIdx) => {
-              const patternClass = getDoorPattern(rowIdx, colIdx)
-
-              return (
-                <div
-                  key={`${rowIdx}-${colIdx}`}
-                  className={cn(
-                    'aspect-square flex items-center justify-center',
-                    'border border-gray-800',
-                    'text-xs font-bold',
-                    'cursor-pointer transition-all duration-150',
-                    'relative overflow-hidden',
-                    `bg-gradient-to-br ${patternClass}`,
-                  )}
-                  onClick={(e: React.MouseEvent<HTMLDivElement>) => piece && handlePieceClick(piece.id, e)}
-                >
-                  {piece && (
-                    <div
-                      className={cn(
-                        'absolute inset-0 flex items-center justify-center',
-                        'font-bold text-sm select-none pointer-events-none',
-                        selectedPieceId === piece.id && 'ring-2 ring-yellow-400',
-                        piece.rotation !== 0 && 'animate-spin-slow'
-                      )}
-                      style={{
-                        transform: `rotate(${piece.rotation}deg)`,
-                        opacity: 0.3,
-                      }}
-                    >
-                      ↻
-                    </div>
-                  )}
-                </div>
-              )
-            })
-          )}
-        </div>
-      </div>
-    )
-  }
+  // Count correct pieces
+  const correctCount = pieces.filter((p) => p.rotation === 0).length
 
   return (
     <div className={cn('flex flex-col items-center gap-6', className)}>
       <style>{`
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        .animate-spin-slow {
-          animation: spin-slow 3s linear infinite;
-        }
         @keyframes door-open {
           0% { transform: perspective(1000px) rotateY(0deg); }
-          100% { transform: perspective(1000px) rotateY(90deg); }
+          100% { transform: perspective(1000px) rotateY(-85deg); }
         }
         .door-opening {
           animation: door-open 1.5s ease-out forwards;
-          transform-origin: right center;
-        }
-        @keyframes snowman-appear {
-          0% {
-            opacity: 0;
-            transform: scale(0.8) translateY(20px);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-          }
-        }
-        .snowman-appear {
-          animation: snowman-appear 1s ease-out forwards;
+          transform-origin: left center;
         }
       `}</style>
 
       {/* Header */}
       <div className="text-center">
         <div className="text-2xl sm:text-3xl mb-2">
-          🚪 Türpuzzle 🎄
+          🚪 Weihnachts-Türpuzzle 🎄
         </div>
         <div className="text-sm text-muted-foreground">
-          Drehe alle Puzzleteile so, dass die Tür perfekt wird
+          Klicke auf die Teile um sie zu drehen, bis das Bild richtig ist!
         </div>
       </div>
 
@@ -286,75 +200,104 @@ export const DoorPuzzle: React.FC<PuzzleProps> = ({ className = '' }) => {
       )}
 
       {/* Main puzzle container */}
-      <div className="relative w-full max-w-2xl">
-        <div className={cn(doorOpening && 'door-opening')} style={{ perspective: '1000px' }}>
-          {renderPuzzleGrid()}
+      <div 
+        className="relative border-4 border-green-700 dark:border-green-500 rounded-lg shadow-2xl overflow-hidden bg-amber-900"
+        style={{ 
+          width: GRID_COLS * PIECE_SIZE + 8,
+          height: GRID_ROWS * PIECE_SIZE + 8,
+        }}
+      >
+        {/* The door puzzle */}
+        <div 
+          className={cn('relative', doorOpening && 'door-opening')}
+          style={{ 
+            width: GRID_COLS * PIECE_SIZE,
+            height: GRID_ROWS * PIECE_SIZE,
+          }}
+        >
+          {/* Hidden complete image for reference */}
+          <div className="absolute inset-0 pointer-events-none opacity-0">
+            <img src={PUZZLE_IMAGE} alt="Completed Puzzle" className="w-full h-full object-cover" />
+          </div>
+
+          {/* Puzzle pieces grid */}
+          <div 
+            className="grid"
+            style={{
+              gridTemplateColumns: `repeat(${GRID_COLS}, ${PIECE_SIZE}px)`,
+              gridTemplateRows: `repeat(${GRID_ROWS}, ${PIECE_SIZE}px)`,
+            }}
+          >
+            {pieces
+              .sort((a, b) => a.id - b.id)
+              .map((piece) => (
+                <div
+                  key={piece.id}
+                  className={cn(
+                    'cursor-pointer overflow-hidden relative',
+                    'border border-gray-600/30',
+                    'hover:border-yellow-400 hover:z-10',
+                    selectedPieceId === piece.id && 'ring-2 ring-yellow-400 z-20',
+                    piece.rotation === 0 && 'border-green-400/50',
+                  )}
+                  style={{
+                    width: PIECE_SIZE,
+                    height: PIECE_SIZE,
+                  }}
+                  onClick={() => handlePieceClick(piece.id)}
+                >
+                  {/* Each piece shows a portion of the door image, rotated */}
+                  <div
+                    style={{
+                      width: PIECE_SIZE,
+                      height: PIECE_SIZE,
+                      transform: `rotate(${piece.rotation}deg)`,
+                      transformOrigin: 'center center',
+                      transition: 'transform 0.2s ease-out',
+                      backgroundImage: `url(${PUZZLE_IMAGE})`,
+                      backgroundSize: `${GRID_COLS * PIECE_SIZE}px ${GRID_ROWS * PIECE_SIZE}px`,
+                      backgroundPosition: `-${piece.col * PIECE_SIZE}px -${piece.row * PIECE_SIZE}px`,
+                    }}
+                  />
+                </div>
+              ))}
+          </div>
         </div>
 
         {/* Snowman reveal */}
-        {showSnowman && (
-          <div className={cn(
-            'absolute inset-0 flex flex-col items-center justify-center',
-            'snowman-appear bg-gradient-to-b from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-950',
-            'rounded-lg border-4 border-green-700 dark:border-green-500'
-          )}>
-            <div className="text-center space-y-4">
-              <div className="text-6xl">⛄</div>
-              <div className="text-2xl font-bold text-green-700 dark:text-green-400">
-                Frohe Weihnachten!
-              </div>
-              <div className="text-lg text-muted-foreground">
-                Die Tür ist offen! 🎅
-              </div>
-            </div>
-          </div>
-        )}
+        {showSnowman && <SnowmanReveal />}
       </div>
 
       {/* Controls */}
-      <div className="flex flex-col gap-3 w-full max-w-2xl px-4 sm:px-0">
-        <div className="flex flex-wrap justify-center gap-2">
-          <Button
-            onClick={() => selectedPieceId !== null && rotatePiece(selectedPieceId, true)}
-            disabled={selectedPieceId === null || isComplete}
-            variant="outline"
-            size="sm"
-          >
-            ↻ Links drehen
-          </Button>
-
-          <Button
-            onClick={() => selectedPieceId !== null && rotatePiece(selectedPieceId, false)}
-            disabled={selectedPieceId === null || isComplete}
-            variant="outline"
-            size="sm"
-          >
-            ↺ Rechts drehen
-          </Button>
-
+      <div className="flex flex-col gap-3 w-full max-w-md px-4 sm:px-0">
+        <div className="flex justify-center">
           <Button
             onClick={handleReset}
             variant="outline"
             size="sm"
             className="text-red-500 border-red-300 hover:bg-red-50 dark:hover:bg-red-900/20"
           >
-            🔄 Neustart
+            🔄 Neu starten
           </Button>
         </div>
 
-        {/* Instructions */}
-        <div className="text-xs sm:text-sm text-center text-muted-foreground space-y-1 bg-card p-3 rounded-lg border border-border">
-          <p>
-            {selectedPieceId !== null
-              ? `📍 Teil ${selectedPieceId + 1} ausgewählt`
-              : '👉 Klicke auf ein Puzzleteil um es auszuwählen'}
+        {/* Progress */}
+        <div className="text-sm text-center text-muted-foreground space-y-2 bg-card p-4 rounded-lg border border-border">
+          <p className="font-medium">
+            Klicke auf ein Teil um es um 90° zu drehen
           </p>
-          <p className="text-[11px] sm:text-xs">
-            Nutze die Tasten oder Buttons um Teile zu drehen. Alle Teile müssen gerade sein!
-          </p>
+          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
+            <div 
+              className="bg-green-500 h-3 rounded-full transition-all duration-300"
+              style={{ width: `${(correctCount / pieces.length) * 100}%` }}
+            />
+          </div>
           <p className="text-green-600 dark:text-green-400 font-semibold">
-            {pieces.filter((p: PuzzlePiece) => p.rotation === 0).length} / {pieces.length} Teile korrekt
+            {correctCount} / {pieces.length} Teile richtig
           </p>
+          {isComplete && (
+            <p className="text-xl animate-pulse">🎉 Geschafft! 🎉</p>
+          )}
         </div>
       </div>
     </div>

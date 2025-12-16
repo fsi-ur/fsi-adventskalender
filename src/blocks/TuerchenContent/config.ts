@@ -175,6 +175,28 @@ const TetrisBlock: Block = {
 }
 
 /**
+ * Door Puzzle block - Christmas-themed rotation puzzle
+ */
+const PuzzleBlock: Block = {
+  slug: 'tuerchenPuzzle',
+  interfaceName: 'TuerchenPuzzleBlock',
+  labels: {
+    singular: 'Türpuzzle',
+    plural: 'Türpuzzles',
+  },
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      defaultValue: 'Türpuzzle',
+      admin: {
+        description: 'Title displayed above the puzzle',
+      },
+    },
+  ],
+}
+
+/**
  * Placeholder block for custom interactive content (quiz, puzzles, etc.)
  * This can be extended later with more specific fields
  */
@@ -257,7 +279,7 @@ export const TuerchenContent: Block = {
     {
       name: 'contentBlocks',
       type: 'blocks',
-      blocks: [TextBlock, ImageBlock, SudokuBlock, TetrisBlock, CustomBlock],
+      blocks: [TextBlock, ImageBlock, SudokuBlock, TetrisBlock, PuzzleBlock, CustomBlock],
       required: true,
       admin: {
         initCollapsed: true,

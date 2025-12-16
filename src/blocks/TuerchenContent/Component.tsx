@@ -4,6 +4,7 @@ import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 import { Sudoku } from '@/components/Sudoku'
 import { PresentTetris } from '@/components/Tetris'
+import { DoorPuzzle } from '@/components/puzzle'
 
 import type { Media as MediaType } from '@/payload-types'
 import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
@@ -38,6 +39,11 @@ type TuerchenTetrisBlock = {
   seedLayout?: number[][] | null
 }
 
+type TuerchenPuzzleBlock = {
+  blockType: 'tuerchenPuzzle'
+  title?: string | null
+}
+
 type TuerchenCustomBlock = {
   blockType: 'tuerchenCustom'
   type: 'quiz' | 'puzzle' | 'other'
@@ -45,7 +51,7 @@ type TuerchenCustomBlock = {
   data?: Record<string, unknown> | null
 }
 
-type ContentBlock = TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenTetrisBlock | TuerchenCustomBlock
+type ContentBlock = TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenTetrisBlock | TuerchenPuzzleBlock | TuerchenCustomBlock
 
 type TuerchenContentBlockProps = {
   blockType: 'tuerchenContent'
@@ -206,6 +212,16 @@ export const TuerchenContentBlock: React.FC<Props> = (props) => {
                 return (
                   <div key={index} className="my-8 md:my-10">
                     <PresentTetris title={block.title || "Santa's Chimney"} />
+                  </div>
+                )
+
+              case 'tuerchenPuzzle':
+                return (
+                  <div
+                    key={index}
+                    className="my-8 rounded-xl border border-border bg-card p-6 shadow-sm md:my-10 md:p-8"
+                  >
+                    <DoorPuzzle />
                   </div>
                 )
 
