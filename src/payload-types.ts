@@ -817,7 +817,7 @@ export interface TuerchenContentBlock {
    */
   publishDate?: string | null;
   /**
-   * Add text, images, Sudoku, Tetris, Türpuzzle, or custom interactive content
+   * Add text, images, Sudoku, Tetris, Türpuzzle, Doodle Jump, or custom interactive content
    */
   contentBlocks: (
     | TuerchenTextBlock
@@ -825,6 +825,7 @@ export interface TuerchenContentBlock {
     | TuerchenSudokuBlock
     | TuerchenTetrisBlock
     | TuerchenDoorPuzzleBlock
+    | TuerchenDoodleJumpBlock
     | TuerchenCustomBlock
   )[];
   id?: string | null;
@@ -937,6 +938,27 @@ export interface TuerchenDoorPuzzleBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'tuerchenDoorPuzzle';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenDoodleJumpBlock".
+ */
+export interface TuerchenDoodleJumpBlock {
+  /**
+   * Title displayed above the game
+   */
+  title?: string | null;
+  /**
+   * Bestimmt Sprungkraft, Plattform-Abstände und Bewegung.
+   */
+  difficulty?: ('cozy' | 'brisk' | 'blizzard') | null;
+  /**
+   * Optionaler Hinweis oder kleine Story für das Türchen.
+   */
+  note?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'tuerchenDoodleJump';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1398,6 +1420,7 @@ export interface TuerchenContentBlockSelect<T extends boolean = true> {
         tuerchenSudoku?: T | TuerchenSudokuBlockSelect<T>;
         tuerchenTetris?: T | TuerchenTetrisBlockSelect<T>;
         tuerchenDoorPuzzle?: T | TuerchenDoorPuzzleBlockSelect<T>;
+        tuerchenDoodleJump?: T | TuerchenDoodleJumpBlockSelect<T>;
         tuerchenCustom?: T | TuerchenCustomBlockSelect<T>;
       };
   id?: T;
@@ -1452,6 +1475,17 @@ export interface TuerchenTetrisBlockSelect<T extends boolean = true> {
  */
 export interface TuerchenDoorPuzzleBlockSelect<T extends boolean = true> {
   title?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenDoodleJumpBlock_select".
+ */
+export interface TuerchenDoodleJumpBlockSelect<T extends boolean = true> {
+  title?: T;
+  difficulty?: T;
+  note?: T;
   id?: T;
   blockName?: T;
 }
