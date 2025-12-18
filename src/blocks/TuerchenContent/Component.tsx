@@ -4,6 +4,7 @@ import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 import { Sudoku } from '@/components/Sudoku'
 import { PresentTetris } from '@/components/Tetris'
+import { DoorPuzzle } from '@/components/puzzle'
 
 import type { Media as MediaType } from '@/payload-types'
 import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
@@ -44,7 +45,12 @@ type TuerchenTetrisBlock = {
   description?: string | null
 }
 
-type ContentBlock = TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenTetrisBlock | TuerchenCustomBlock
+type TuerchenDoorPuzzleBlock = {
+  blockType: 'tuerchenDoorPuzzle'
+  title?: string | null
+}
+
+type ContentBlock = TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenTetrisBlock | TuerchenDoorPuzzleBlock | TuerchenCustomBlock
 
 type TuerchenContentBlockProps = {
   blockType: 'tuerchenContent'
@@ -211,6 +217,16 @@ export const TuerchenContentBlock: React.FC<Props> = (props) => {
                       title={block.title || 'Weihnachts-Tetris'}
                       description={block.description || undefined}
                     />
+                  </div>
+                )
+
+              case 'tuerchenDoorPuzzle':
+                return (
+                  <div
+                    key={index}
+                    className="my-8 rounded-xl border border-border bg-card p-6 shadow-sm md:my-10 md:p-8"
+                  >
+                    <DoorPuzzle />
                   </div>
                 )
 

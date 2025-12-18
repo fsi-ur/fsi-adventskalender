@@ -817,13 +817,14 @@ export interface TuerchenContentBlock {
    */
   publishDate?: string | null;
   /**
-   * Add text, images, Sudoku, Tetris, or custom interactive content
+   * Add text, images, Sudoku, Tetris, Türpuzzle, or custom interactive content
    */
   contentBlocks: (
     | TuerchenTextBlock
     | TuerchenImageBlock
     | TuerchenSudokuBlock
     | TuerchenTetrisBlock
+    | TuerchenDoorPuzzleBlock
     | TuerchenCustomBlock
   )[];
   id?: string | null;
@@ -923,6 +924,19 @@ export interface TuerchenTetrisBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'tuerchenTetris';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenDoorPuzzleBlock".
+ */
+export interface TuerchenDoorPuzzleBlock {
+  /**
+   * Title displayed above the puzzle
+   */
+  title?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'tuerchenDoorPuzzle';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1383,6 +1397,7 @@ export interface TuerchenContentBlockSelect<T extends boolean = true> {
         tuerchenImage?: T | TuerchenImageBlockSelect<T>;
         tuerchenSudoku?: T | TuerchenSudokuBlockSelect<T>;
         tuerchenTetris?: T | TuerchenTetrisBlockSelect<T>;
+        tuerchenDoorPuzzle?: T | TuerchenDoorPuzzleBlockSelect<T>;
         tuerchenCustom?: T | TuerchenCustomBlockSelect<T>;
       };
   id?: T;
@@ -1428,6 +1443,15 @@ export interface TuerchenSudokuBlockSelect<T extends boolean = true> {
 export interface TuerchenTetrisBlockSelect<T extends boolean = true> {
   title?: T;
   description?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenDoorPuzzleBlock_select".
+ */
+export interface TuerchenDoorPuzzleBlockSelect<T extends boolean = true> {
+  title?: T;
   id?: T;
   blockName?: T;
 }
