@@ -4,7 +4,7 @@ import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 import { Sudoku } from '@/components/Sudoku'
 import { PresentTetris } from '@/components/Tetris'
-import { DoorPuzzle } from '@/components/puzzle'
+import { DoorPuzzle } from '@/components/Puzzle'
 
 import type { Media as MediaType } from '@/payload-types'
 import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
