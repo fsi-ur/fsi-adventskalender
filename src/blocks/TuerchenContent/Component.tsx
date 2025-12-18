@@ -5,6 +5,7 @@ import { Media } from '@/components/Media'
 import { Sudoku } from '@/components/Sudoku'
 import { PresentTetris } from '@/components/Tetris'
 import { DoorPuzzle } from '@/components/Puzzle'
+import { ChristmasDoodleJump } from '@/components/DoodleJump'
 
 import type { Media as MediaType } from '@/payload-types'
 import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
@@ -50,7 +51,14 @@ type TuerchenDoorPuzzleBlock = {
   title?: string | null
 }
 
-type ContentBlock = TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenTetrisBlock | TuerchenDoorPuzzleBlock | TuerchenCustomBlock
+type TuerchenDoodleJumpBlock = {
+  blockType: 'tuerchenDoodleJump'
+  title?: string | null
+  difficulty?: 'cozy' | 'brisk' | 'blizzard' | null
+  note?: string | null
+}
+
+type ContentBlock = TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenTetrisBlock | TuerchenDoorPuzzleBlock | TuerchenDoodleJumpBlock | TuerchenCustomBlock
 
 type TuerchenContentBlockProps = {
   blockType: 'tuerchenContent'
@@ -227,6 +235,20 @@ export const TuerchenContentBlock: React.FC<Props> = (props) => {
                     className="my-8 rounded-xl border border-border bg-card p-6 shadow-sm md:my-10 md:p-8"
                   >
                     <DoorPuzzle />
+                  </div>
+                )
+
+              case 'tuerchenDoodleJump':
+                return (
+                  <div
+                    key={index}
+                    className="my-8 rounded-xl border border-border bg-card p-6 shadow-sm md:my-10 md:p-8"
+                  >
+                    <ChristmasDoodleJump
+                      title={block.title || 'Polar Doodle Jump'}
+                      difficulty={block.difficulty || 'cozy'}
+                      note={block.note || undefined}
+                    />
                   </div>
                 )
 

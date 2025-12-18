@@ -187,6 +187,48 @@ const DoorPuzzleBlock: Block = {
 }
 
 /**
+ * Doodle Jump block for interactive Christmas-themed jumping game
+ */
+const DoodleJumpBlock: Block = {
+  slug: 'tuerchenDoodleJump',
+  interfaceName: 'TuerchenDoodleJumpBlock',
+  labels: {
+    singular: 'Doodle Jump',
+    plural: 'Doodle Jump',
+  },
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      defaultValue: 'Polar Doodle Jump',
+      admin: {
+        description: 'Title displayed above the game',
+      },
+    },
+    {
+      name: 'difficulty',
+      type: 'select',
+      defaultValue: 'cozy',
+      options: [
+        { label: 'Gemütlich', value: 'cozy' },
+        { label: 'Winterabend', value: 'brisk' },
+        { label: 'Schneesturm', value: 'blizzard' },
+      ],
+      admin: {
+        description: 'Bestimmt Sprungkraft, Plattform-Abstände und Bewegung.',
+      },
+    },
+    {
+      name: 'note',
+      type: 'textarea',
+      admin: {
+        description: 'Optionaler Hinweis oder kleine Story für das Türchen.',
+      },
+    },
+  ],
+}
+
+/**
  * Placeholder block for custom interactive content (quiz, puzzles, etc.)
  * This can be extended later with more specific fields
  */
@@ -269,11 +311,11 @@ export const TuerchenContent: Block = {
     {
       name: 'contentBlocks',
       type: 'blocks',
-      blocks: [TextBlock, ImageBlock, SudokuBlock, TetrisBlock, DoorPuzzleBlock, CustomBlock],
+      blocks: [TextBlock, ImageBlock, SudokuBlock, TetrisBlock, DoorPuzzleBlock, DoodleJumpBlock, CustomBlock],
       required: true,
       admin: {
         initCollapsed: true,
-        description: 'Add text, images, Sudoku, Tetris, Türpuzzle, or custom interactive content',
+        description: 'Add text, images, Sudoku, Tetris, Türpuzzle, Doodle Jump, or custom interactive content',
       },
     },
   ],
