@@ -229,6 +229,273 @@ const DoodleJumpBlock: Block = {
 }
 
 /**
+ * Default quiz questions for Christmas movie quiz
+ */
+const defaultQuizQuestions = [
+  {
+    question: 'In welchem Weihnachtsfilm wird ein kleiner Junge versehentlich von seiner Familie zu Hause zurückgelassen?',
+    options: [
+      { text: 'Kevin – Allein zu Haus' },
+      { text: 'Der Grinch' },
+      { text: 'Tatsächlich... Liebe' },
+      { text: 'Schöne Bescherung' },
+    ],
+    correctIndex: 0,
+    funFact: 'Der Film „Kevin – Allein zu Haus" (1990) mit Macaulay Culkin war ein riesiger Kassenerfolg und spielte weltweit über 476 Millionen Dollar ein!',
+  },
+  {
+    question: 'Welcher Charakter hasst Weihnachten und stiehlt alle Geschenke in Whoville?',
+    options: [
+      { text: 'Scrooge' },
+      { text: 'Der Grinch' },
+      { text: 'Jack Skellington' },
+      { text: 'Mr. Bean' },
+    ],
+    correctIndex: 1,
+    funFact: 'Der Grinch stammt aus dem Kinderbuch „How the Grinch Stole Christmas!" von Dr. Seuss aus dem Jahr 1957.',
+  },
+  {
+    question: 'Wer spielt im Film „Tatsächlich... Liebe" den britischen Premierminister?',
+    options: [
+      { text: 'Colin Firth' },
+      { text: 'Alan Rickman' },
+      { text: 'Hugh Grant' },
+      { text: 'Liam Neeson' },
+    ],
+    correctIndex: 2,
+    funFact: 'Die berühmte Tanzszene des Premierministers (Hugh Grant) zu „Jump (For My Love)" wurde improvisiert und war anfangs gar nicht geplant.',
+  },
+  {
+    question: 'In welchem Film versucht ein Elf, seinen leiblichen Vater in New York zu finden?',
+    options: [
+      { text: 'Der Polarexpress' },
+      { text: 'Buddy – Der Weihnachtself' },
+      { text: 'Santa Clause' },
+      { text: 'Arthur Weihnachtsmann' },
+    ],
+    correctIndex: 1,
+    funFact: 'Will Ferrell blieb während der Dreharbeiten oft im Elf-Kostüm, um im Charakter zu bleiben – selbst beim Mittagessen!',
+  },
+  {
+    question: 'In welchem Film wird ein alter Geizkragen von drei Geistern besucht?',
+    options: [
+      { text: 'Stirb langsam' },
+      { text: 'Weihnachten bei den Hoppenstedts' },
+      { text: 'Eine Weihnachtsgeschichte (A Christmas Carol)' },
+      { text: 'Drei Haselnüsse für Aschenbrödel' },
+    ],
+    correctIndex: 2,
+    funFact: 'Charles Dickens schrieb „A Christmas Carol" 1843 in nur sechs Wochen. Die Geschichte hat seitdem zahlreiche Verfilmungen inspiriert.',
+  },
+  {
+    question: 'Wie heißt der berühmte tschechisch-deutsche Märchenfilm mit dem Zauberspruch „Heute back ich, morgen brau ich..."?',
+    options: [
+      { text: 'Drei Haselnüsse für Aschenbrödel' },
+      { text: 'Rumpelstilzchen' },
+      { text: 'Das kalte Herz' },
+      { text: 'Schneewittchen' },
+    ],
+    correctIndex: 0,
+    funFact: 'Halt! Das war eine Fangfrage – „Drei Haselnüsse für Aschenbrödel" enthält gar keinen solchen Spruch. Der Zauberspruch gehört zu Rumpelstilzchen! Aber der Film ist trotzdem ein Weihnachtsklassiker.',
+  },
+  {
+    question: 'In welchem Film sagt jemand: „Frohe Weihnachten, du elende Ratte!"?',
+    options: [
+      { text: 'Kevin – Allein zu Haus' },
+      { text: 'Bad Santa' },
+      { text: 'Der Polarexpress' },
+      { text: 'Stirb Langsam' },
+    ],
+    correctIndex: 0,
+    funFact: 'Das Zitat stammt aus dem fiktiven Film-im-Film „Angels with Filthy Souls", der extra für Kevin – Allein zu Haus produziert wurde.',
+  },
+  {
+    question: 'Welcher Disney/Pixar-Film spielt zwar nicht an Weihnachten, wird aber oft in der Weihnachtszeit geschaut und handelt von einem Schneemann, der den Sommer liebt?',
+    options: [
+      { text: 'Vaiana' },
+      { text: 'Die Eiskönigin' },
+      { text: 'Coco' },
+      { text: 'Oben' },
+    ],
+    correctIndex: 1,
+    funFact: 'Olaf singt das Lied „Im Sommer" und stellt sich darin vor, wie schön der Sommer wäre – ohne zu wissen, dass er dabei schmelzen würde!',
+  },
+  {
+    question: 'In welchem Film reist ein Junge mit einem magischen Zug zum Nordpol?',
+    options: [
+      { text: 'Nightmare Before Christmas' },
+      { text: 'Santa Clause' },
+      { text: 'Klaus' },
+      { text: 'Der Polarexpress' },
+    ],
+    correctIndex: 3,
+    funFact: 'Tom Hanks spricht und verkörpert im Polarexpress gleich sechs verschiedene Charaktere!',
+  },
+  {
+    question: 'Welcher actionreiche Film mit Bruce Willis spielt an Heiligabend und wird oft als Weihnachtsfilm diskutiert?',
+    options: [
+      { text: 'Lethal Weapon' },
+      { text: 'Stirb langsam' },
+      { text: 'Last Action Hero' },
+      { text: 'Rambo' },
+    ],
+    correctIndex: 1,
+    funFact: 'Die Debatte, ob „Stirb langsam" ein Weihnachtsfilm ist, wird jedes Jahr aufs Neue geführt. Bruce Willis selbst hat erklärt: Es ist KEIN Weihnachtsfilm. Die Fans sehen das oft anders!',
+  },
+  {
+    question: 'In welchem Weihnachtsfilm singt eine junge Frau davon, was sie sich zu Weihnachten wünscht – nämlich DICH?',
+    options: [
+      { text: 'The Holiday' },
+      { text: 'Last Christmas' },
+      { text: 'Tatsächlich... Liebe' },
+      { text: 'Bridget Jones – Schokolade zum Frühstück' },
+    ],
+    correctIndex: 1,
+    funFact: 'Das Lied „Last Christmas" von Wham! wurde 1984 veröffentlicht und ist einer der meistgespielten Weihnachtssongs aller Zeiten – obwohl es bei Erstveröffentlichung nie Platz 1 erreichte!',
+  },
+  {
+    question: 'In welchem Netflix-Animationsfilm geht es um einen Postboten, der in einem verschneiten Dorf Spielzeug verschenkt?',
+    options: [
+      { text: 'Klaus' },
+      { text: 'Arthur Weihnachtsmann' },
+      { text: 'Der Grinch (2018)' },
+      { text: 'Noelle' },
+    ],
+    correctIndex: 0,
+    funFact: '„Klaus" war der erste animierte Netflix-Originalfilm und wurde für einen Oscar nominiert – er verlor gegen „Toy Story 4".',
+  },
+  {
+    question: 'In welchem Film tauschen zwei Frauen ihre Häuser über Weihnachten?',
+    options: [
+      { text: 'The Holiday' },
+      { text: 'Tatsächlich... Liebe' },
+      { text: 'Bridget Jones' },
+      { text: 'Liebe braucht keine Ferien' },
+    ],
+    correctIndex: 0,
+    funFact: 'Das Cottage in „The Holiday" (mit Kate Winslet und Cameron Diaz) wurde extra für den Film gebaut – es existiert in echt leider nicht!',
+  },
+  {
+    question: 'Welcher Schauspieler spielt den verkleideten Weihnachtsmann im Film „Santa Clause – Eine schöne Bescherung"?',
+    options: [
+      { text: 'Jim Carrey' },
+      { text: 'Tim Allen' },
+      { text: 'Robin Williams' },
+      { text: 'Eddie Murphy' },
+    ],
+    correctIndex: 1,
+    funFact: 'Die Klausel im Titel ist ein Wortspiel: „Santa Clause" klingt wie „Santa Claus", bedeutet aber auch „Vertragsklausel".',
+  },
+  {
+    question: 'In welchem Stop-Motion-Film übernimmt der „Kürbiskönig" Jack Skellington Weihnachten?',
+    options: [
+      { text: 'Corpse Bride' },
+      { text: 'Coraline' },
+      { text: 'Nightmare Before Christmas' },
+      { text: 'Frankenweenie' },
+    ],
+    correctIndex: 2,
+    funFact: 'Obwohl Tim Burton oft als Regisseur genannt wird, führte Henry Selick Regie – Burton war nur Produzent und Ideengeber.',
+  },
+  {
+    question: 'In welchem deutschen Weihnachtsklassiker geht im Sketch „Das Festessen" alles schief beim Weihnachtsessen?',
+    options: [
+      { text: 'Otto – Der Film' },
+      { text: 'Weihnachten bei den Hoppenstedts (Loriot)' },
+      { text: 'Drei Haselnüsse für Aschenbrödel' },
+      { text: 'Der Schuh des Manitu' },
+    ],
+    correctIndex: 1,
+    funFact: '„Früher war mehr Lametta!" – einer der bekanntesten Loriot-Sprüche stammt aus diesem Sketch. Der Satz ist längst Kult!',
+  },
+]
+
+/**
+ * Christmas Quiz block - Multiple choice quiz with fun facts
+ */
+const QuizBlock: Block = {
+  slug: 'tuerchenQuiz',
+  interfaceName: 'TuerchenQuizBlock',
+  labels: {
+    singular: 'Quiz',
+    plural: 'Quizze',
+  },
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      defaultValue: 'Weihnachtsfilm-Quiz 🎄🎬',
+      admin: {
+        description: 'Title displayed above the quiz',
+      },
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      defaultValue: 'Teste dein Wissen über die beliebtesten Weihnachtsfilme! 16 Fragen rund um Klassiker und moderne Favoriten.',
+      admin: {
+        description: 'Optional introduction text for the quiz',
+      },
+    },
+    {
+      name: 'questions',
+      type: 'array',
+      required: true,
+      minRows: 1,
+      defaultValue: defaultQuizQuestions,
+      labels: {
+        singular: 'Frage',
+        plural: 'Fragen',
+      },
+      fields: [
+        {
+          name: 'question',
+          type: 'text',
+          required: true,
+          admin: {
+            description: 'Die Quizfrage',
+          },
+        },
+        {
+          name: 'options',
+          type: 'array',
+          required: true,
+          minRows: 2,
+          maxRows: 6,
+          labels: {
+            singular: 'Antwort',
+            plural: 'Antworten',
+          },
+          fields: [
+            {
+              name: 'text',
+              type: 'text',
+              required: true,
+            },
+          ],
+        },
+        {
+          name: 'correctIndex',
+          type: 'number',
+          required: true,
+          min: 0,
+          admin: {
+            description: 'Index der richtigen Antwort (0 = erste Antwort, 1 = zweite, usw.)',
+          },
+        },
+        {
+          name: 'funFact',
+          type: 'textarea',
+          admin: {
+            description: 'Optionaler Fun Fact, der nach Beantwortung angezeigt wird',
+          },
+        },
+      ],
+    },
+  ],
+}
+
+/**
  * Placeholder block for custom interactive content (quiz, puzzles, etc.)
  * This can be extended later with more specific fields
  */
@@ -311,11 +578,11 @@ export const TuerchenContent: Block = {
     {
       name: 'contentBlocks',
       type: 'blocks',
-      blocks: [TextBlock, ImageBlock, SudokuBlock, TetrisBlock, DoorPuzzleBlock, DoodleJumpBlock, CustomBlock],
+      blocks: [TextBlock, ImageBlock, SudokuBlock, TetrisBlock, DoorPuzzleBlock, DoodleJumpBlock, QuizBlock, CustomBlock],
       required: true,
       admin: {
         initCollapsed: true,
-        description: 'Add text, images, Sudoku, Tetris, Türpuzzle, Doodle Jump, or custom interactive content',
+        description: 'Add text, images, Sudoku, Tetris, Türpuzzle, Doodle Jump, Quiz, or custom interactive content',
       },
     },
   ],

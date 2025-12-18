@@ -6,6 +6,7 @@ import { Sudoku } from '@/components/Sudoku'
 import { PresentTetris } from '@/components/Tetris'
 import { DoorPuzzle } from '@/components/Puzzle'
 import { ChristmasDoodleJump } from '@/components/DoodleJump'
+import { ChristmasQuiz } from '@/components/ChristmasQuiz'
 
 import type { Media as MediaType } from '@/payload-types'
 import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
@@ -58,7 +59,19 @@ type TuerchenDoodleJumpBlock = {
   note?: string | null
 }
 
-type ContentBlock = TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenTetrisBlock | TuerchenDoorPuzzleBlock | TuerchenDoodleJumpBlock | TuerchenCustomBlock
+type TuerchenQuizBlock = {
+  blockType: 'tuerchenQuiz'
+  title?: string | null
+  description?: string | null
+  questions: {
+    question: string
+    options: { text: string }[]
+    correctIndex: number
+    funFact?: string | null
+  }[]
+}
+
+type ContentBlock = TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenTetrisBlock | TuerchenDoorPuzzleBlock | TuerchenDoodleJumpBlock | TuerchenQuizBlock | TuerchenCustomBlock
 
 type TuerchenContentBlockProps = {
   blockType: 'tuerchenContent'
@@ -248,6 +261,25 @@ export const TuerchenContentBlock: React.FC<Props> = (props) => {
                       title={block.title || 'Polar Doodle Jump'}
                       difficulty={block.difficulty || 'cozy'}
                       note={block.note || undefined}
+                    />
+                  </div>
+                )
+
+              case 'tuerchenQuiz':
+                return (
+                  <div
+                    key={index}
+                    className="my-8 md:my-10"
+                  >
+                    <ChristmasQuiz
+                      title={block.title || 'Weihnachts-Quiz'}
+                      description={block.description || undefined}
+                      questions={block.questions.map((q) => ({
+                        question: q.question,
+                        options: q.options.map((o) => o.text),
+                        correctIndex: q.correctIndex,
+                        funFact: q.funFact || undefined,
+                      }))}
                     />
                   </div>
                 )
