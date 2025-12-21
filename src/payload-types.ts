@@ -826,6 +826,7 @@ export interface TuerchenContentBlock {
     | TuerchenTetrisBlock
     | TuerchenPuzzleBlock
     | TuerchenDoodleJumpBlock
+    | TuerchenBlackJackBlock
     | TuerchenCustomBlock
   )[];
   id?: string | null;
@@ -965,6 +966,19 @@ export interface TuerchenDoodleJumpBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'tuerchenDoodleJump';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenBlackJackBlock".
+ */
+export interface TuerchenBlackJackBlock {
+  /**
+   * Title displayed above the game
+   */
+  title?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'tuerchenBlackJack';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1427,6 +1441,7 @@ export interface TuerchenContentBlockSelect<T extends boolean = true> {
         tuerchenTetris?: T | TuerchenTetrisBlockSelect<T>;
         tuerchenPuzzle?: T | TuerchenPuzzleBlockSelect<T>;
         tuerchenDoodleJump?: T | TuerchenDoodleJumpBlockSelect<T>;
+        tuerchenBlackJack?: T | TuerchenBlackJackBlockSelect<T>;
         tuerchenCustom?: T | TuerchenCustomBlockSelect<T>;
       };
   id?: T;
@@ -1493,6 +1508,15 @@ export interface TuerchenDoodleJumpBlockSelect<T extends boolean = true> {
   title?: T;
   difficulty?: T;
   note?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenBlackJackBlock_select".
+ */
+export interface TuerchenBlackJackBlockSelect<T extends boolean = true> {
+  title?: T;
   id?: T;
   blockName?: T;
 }

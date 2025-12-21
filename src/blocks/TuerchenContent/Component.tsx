@@ -6,6 +6,8 @@ import { Sudoku } from '@/components/Sudoku'
 import { PresentTetris } from '@/components/Tetris'
 import { DoorPuzzle } from '@/components/puzzle'
 import { ChristmasDoodleJump } from '@/components/DoodleJump'
+import { BlackJack } from '@/components/blackJack'
+import { Solitaire } from '@/components/Solitaire'
 
 import type { Media as MediaType } from '@/payload-types'
 import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
@@ -52,6 +54,16 @@ type TuerchenDoodleJumpBlock = {
   note?: string | null
 }
 
+type TuerchenBlackJackBlock = {
+  blockType: 'tuerchenBlackJack'
+  title?: string | null
+}
+
+type TuerchenSolitaireBlock = {
+  blockType: 'tuerchenSolitaire'
+  title?: string | null
+}
+
 type TuerchenCustomBlock = {
   blockType: 'tuerchenCustom'
   type: 'quiz' | 'puzzle' | 'other'
@@ -59,7 +71,7 @@ type TuerchenCustomBlock = {
   data?: Record<string, unknown> | null
 }
 
-type ContentBlock = TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenTetrisBlock | TuerchenPuzzleBlock | TuerchenDoodleJumpBlock | TuerchenCustomBlock
+type ContentBlock = TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenTetrisBlock | TuerchenPuzzleBlock | TuerchenDoodleJumpBlock | TuerchenBlackJackBlock | TuerchenSolitaireBlock | TuerchenCustomBlock
 
 type TuerchenContentBlockProps = {
   blockType: 'tuerchenContent'
@@ -241,6 +253,20 @@ export const TuerchenContentBlock: React.FC<Props> = (props) => {
                       difficulty={block.difficulty || 'cozy'}
                       note={block.note || undefined}
                     />
+                  </div>
+                )
+
+              case 'tuerchenBlackJack':
+                return (
+                  <div key={index} className="my-8 md:my-10">
+                    <BlackJack />
+                  </div>
+                )
+
+              case 'tuerchenSolitaire':
+                return (
+                  <div key={index} className="my-8 md:my-10">
+                    <Solitaire />
                   </div>
                 )
 

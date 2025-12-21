@@ -233,6 +233,50 @@ const PuzzleBlock: Block = {
 }
 
 /**
+ * Blackjack block - Christmas Edition
+ */
+const BlackJackBlock: Block = {
+  slug: 'tuerchenBlackJack',
+  interfaceName: 'TuerchenBlackJackBlock',
+  labels: {
+    singular: 'Blackjack',
+    plural: 'Blackjack Games',
+  },
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      defaultValue: 'Blackjack - the christmas edition',
+      admin: {
+        description: 'Title displayed above the game',
+      },
+    },
+  ],
+}
+
+/**
+ * Solitaire block - Christmas Edition
+ */
+const SolitaireBlock: Block = {
+  slug: 'tuerchenSolitaire',
+  interfaceName: 'TuerchenSolitaireBlock',
+  labels: {
+    singular: 'Solitaire',
+    plural: 'Solitaire Games',
+  },
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      defaultValue: 'Christmas Solitaire',
+      admin: {
+        description: 'Title displayed above the game',
+      },
+    },
+  ],
+}
+
+/**
  * Placeholder block for custom interactive content (quiz, puzzles, etc.)
  * This can be extended later with more specific fields
  */
@@ -293,7 +337,7 @@ export const TuerchenContent: Block = {
       admin: {
         description: 'A brief description or lead paragraph',
       },
-    },
+    },SolitaireBlock, 
     {
       name: 'author',
       type: 'text',
@@ -315,7 +359,7 @@ export const TuerchenContent: Block = {
     {
       name: 'contentBlocks',
       type: 'blocks',
-      blocks: [TextBlock, ImageBlock, SudokuBlock, TetrisBlock, PuzzleBlock, DoodleJumpBlock, CustomBlock],
+      blocks: [TextBlock, ImageBlock, SudokuBlock, TetrisBlock, PuzzleBlock, DoodleJumpBlock, BlackJackBlock, CustomBlock],
       required: true,
       admin: {
         initCollapsed: true,
