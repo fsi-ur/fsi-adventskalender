@@ -228,6 +228,25 @@ const DoodleJumpBlock: Block = {
   ],
 }
 
+const BlackJackBlock: Block = {
+  slug: 'tuerchenBlackJack',
+  interfaceName: 'TuerchenBlackJackBlock',
+  labels: {
+    singular: 'Blackjack',
+    plural: 'Blackjack Games',
+  },
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      defaultValue: 'Blackjack - the christmas edition',
+      admin: {
+        description: 'Title displayed above the game',
+      },
+    },
+  ],
+}
+
 /**
  * Default quiz questions for Christmas movie quiz
  */
@@ -578,11 +597,11 @@ export const TuerchenContent: Block = {
     {
       name: 'contentBlocks',
       type: 'blocks',
-      blocks: [TextBlock, ImageBlock, SudokuBlock, TetrisBlock, DoorPuzzleBlock, DoodleJumpBlock, QuizBlock, CustomBlock],
+      blocks: [TextBlock, ImageBlock, SudokuBlock, TetrisBlock, DoorPuzzleBlock, DoodleJumpBlock, BlackJackBlock, QuizBlock, CustomBlock],
       required: true,
       admin: {
         initCollapsed: true,
-        description: 'Add text, images, Sudoku, Tetris, Türpuzzle, Doodle Jump, Quiz, or custom interactive content',
+        description: 'Add text, images, Sudoku, Tetris, Türpuzzle, Doodle Jump, Blackjack, Quiz, or custom interactive content',
       },
     },
   ],

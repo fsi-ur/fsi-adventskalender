@@ -817,7 +817,7 @@ export interface TuerchenContentBlock {
    */
   publishDate?: string | null;
   /**
-   * Add text, images, Sudoku, Tetris, Türpuzzle, Doodle Jump, or custom interactive content
+   * Add text, images, Sudoku, Tetris, Türpuzzle, Doodle Jump, Blackjack, Quiz, or custom interactive content
    */
   contentBlocks: (
     | TuerchenTextBlock
@@ -826,6 +826,8 @@ export interface TuerchenContentBlock {
     | TuerchenTetrisBlock
     | TuerchenDoorPuzzleBlock
     | TuerchenDoodleJumpBlock
+    | TuerchenBlackJackBlock
+    | TuerchenQuizBlock
     | TuerchenCustomBlock
   )[];
   id?: string | null;
@@ -959,6 +961,55 @@ export interface TuerchenDoodleJumpBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'tuerchenDoodleJump';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenBlackJackBlock".
+ */
+export interface TuerchenBlackJackBlock {
+  /**
+   * Title displayed above the game
+   */
+  title?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'tuerchenBlackJack';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenQuizBlock".
+ */
+export interface TuerchenQuizBlock {
+  /**
+   * Title displayed above the quiz
+   */
+  title?: string | null;
+  /**
+   * Optional introduction text for the quiz
+   */
+  description?: string | null;
+  questions: {
+    /**
+     * Die Quizfrage
+     */
+    question: string;
+    options: {
+      text: string;
+      id?: string | null;
+    }[];
+    /**
+     * Index der richtigen Antwort (0 = erste Antwort, 1 = zweite, usw.)
+     */
+    correctIndex: number;
+    /**
+     * Optionaler Fun Fact, der nach Beantwortung angezeigt wird
+     */
+    funFact?: string | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'tuerchenQuiz';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1421,6 +1472,8 @@ export interface TuerchenContentBlockSelect<T extends boolean = true> {
         tuerchenTetris?: T | TuerchenTetrisBlockSelect<T>;
         tuerchenDoorPuzzle?: T | TuerchenDoorPuzzleBlockSelect<T>;
         tuerchenDoodleJump?: T | TuerchenDoodleJumpBlockSelect<T>;
+        tuerchenBlackJack?: T | TuerchenBlackJackBlockSelect<T>;
+        tuerchenQuiz?: T | TuerchenQuizBlockSelect<T>;
         tuerchenCustom?: T | TuerchenCustomBlockSelect<T>;
       };
   id?: T;
@@ -1486,6 +1539,39 @@ export interface TuerchenDoodleJumpBlockSelect<T extends boolean = true> {
   title?: T;
   difficulty?: T;
   note?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenBlackJackBlock_select".
+ */
+export interface TuerchenBlackJackBlockSelect<T extends boolean = true> {
+  title?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TuerchenQuizBlock_select".
+ */
+export interface TuerchenQuizBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  questions?:
+    | T
+    | {
+        question?: T;
+        options?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        correctIndex?: T;
+        funFact?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }

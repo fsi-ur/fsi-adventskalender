@@ -7,6 +7,7 @@ import { PresentTetris } from '@/components/Tetris'
 import { DoorPuzzle } from '@/components/Puzzle'
 import { ChristmasDoodleJump } from '@/components/DoodleJump'
 import { ChristmasQuiz } from '@/components/ChristmasQuiz'
+import { BlackJack } from '@/components/BlackJack'
 
 import type { Media as MediaType } from '@/payload-types'
 import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
@@ -59,6 +60,11 @@ type TuerchenDoodleJumpBlock = {
   note?: string | null
 }
 
+type TuerchenBlackJackBlock = {
+  blockType: 'tuerchenBlackJack'
+  title?: string | null
+}
+
 type TuerchenQuizBlock = {
   blockType: 'tuerchenQuiz'
   title?: string | null
@@ -71,7 +77,7 @@ type TuerchenQuizBlock = {
   }[]
 }
 
-type ContentBlock = TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenTetrisBlock | TuerchenDoorPuzzleBlock | TuerchenDoodleJumpBlock | TuerchenQuizBlock | TuerchenCustomBlock
+type ContentBlock = TuerchenTextBlock | TuerchenImageBlock | TuerchenSudokuBlock | TuerchenTetrisBlock | TuerchenDoorPuzzleBlock | TuerchenDoodleJumpBlock | TuerchenBlackJackBlock | TuerchenQuizBlock | TuerchenCustomBlock
 
 type TuerchenContentBlockProps = {
   blockType: 'tuerchenContent'
@@ -262,6 +268,16 @@ export const TuerchenContentBlock: React.FC<Props> = (props) => {
                       difficulty={block.difficulty || 'cozy'}
                       note={block.note || undefined}
                     />
+                  </div>
+                )
+
+              case 'tuerchenBlackJack':
+                return (
+                  <div
+                    key={index}
+                    className="my-8 rounded-xl border border-border bg-card p-6 shadow-sm md:my-10 md:p-8"
+                  >
+                    <BlackJack/>
                   </div>
                 )
 
