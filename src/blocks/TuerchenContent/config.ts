@@ -314,7 +314,7 @@ const defaultQuizQuestions = [
       { text: 'Das kalte Herz' },
       { text: 'Schneewittchen' },
     ],
-    correctIndex: 0,
+    correctIndex: 1,
     funFact: 'Halt! Das war eine Fangfrage – „Drei Haselnüsse für Aschenbrödel" enthält gar keinen solchen Spruch. Der Zauberspruch gehört zu Rumpelstilzchen! Aber der Film ist trotzdem ein Weihnachtsklassiker.',
   },
   {
